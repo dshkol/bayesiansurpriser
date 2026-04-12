@@ -1,8 +1,8 @@
 ---
-title: "Introduction to bayesiansurprise"
+title: "Introduction to bayesiansurpriser"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to bayesiansurprise}
+  %\VignetteIndexEntry{Introduction to bayesiansurpriser}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The `bayesiansurprise` package implements Bayesian Surprise methodology for de-biasing thematic maps and data visualizations. This technique, based on Correll & Heer's "Surprise! Bayesian Weighting for De-Biasing Thematic Maps" (IEEE InfoVis 2016), helps identify truly surprising patterns in data by accounting for common cognitive biases.
+The `bayesiansurpriser` package implements Bayesian Surprise methodology for de-biasing thematic maps and data visualizations. This technique, based on Correll & Heer's "Surprise! Bayesian Weighting for De-Biasing Thematic Maps" (IEEE InfoVis 2016), helps identify truly surprising patterns in data by accounting for common cognitive biases.
 
 ## The Problem: Cognitive Biases in Data Visualization
 
@@ -40,7 +40,7 @@ Higher surprise indicates observations that substantially change our beliefs.
 ## Quick Start
 
 ```{r setup}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(sf)
 library(ggplot2)
 ```

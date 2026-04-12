@@ -18,13 +18,13 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(ggplot2)
 ```
 
 ## Overview
 
-The `bayesiansurprise` package supports temporal analysis and streaming data through specialized functions that track how surprise evolves over time.
+The `bayesiansurpriser` package supports temporal analysis and streaming data through specialized functions that track how surprise evolves over time.
 
 ## Temporal Analysis with surprise_temporal()
 

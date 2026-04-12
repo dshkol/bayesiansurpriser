@@ -18,16 +18,16 @@ knitr::opts_chunk$set(
   fig.height = 5,
   warning = FALSE,
   message = FALSE,
-  fig.alt = "Example visualization produced by a bayesiansurprise function."
+  fig.alt = "Example visualization produced by a bayesiansurpriser function."
 )
 ```
 
-# bayesiansurprise: Complete Reference
+# bayesiansurpriser: Complete Reference
 
-This vignette demonstrates all major functions in the `bayesiansurprise` package with working examples and visualizations.
+This vignette demonstrates all major functions in the `bayesiansurpriser` package with working examples and visualizations.
 
 ```{r load-packages}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(sf)
 library(ggplot2)
 ```
@@ -662,7 +662,7 @@ summary(result)
 ## 13.1 canada_mischief
 
 ```{r data-canada}
-data(canada_mischief, package = "bayesiansurprise")
+data(canada_mischief, package = "bayesiansurpriser")
 cat("Canada mischief dataset:\n")
 cat("Rows:", nrow(canada_mischief), "\n")
 cat("Columns:", paste(names(canada_mischief), collapse = ", "), "\n")
@@ -684,7 +684,7 @@ print(df_result[order(-df_result$surprise), ])
 ## 13.2 example_counties
 
 ```{r data-counties}
-data(example_counties, package = "bayesiansurprise")
+data(example_counties, package = "bayesiansurpriser")
 cat("Example counties dataset:\n")
 cat("Class:", class(example_counties)[1], "\n")
 cat("Rows:", nrow(example_counties), "\n")

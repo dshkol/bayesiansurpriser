@@ -29,7 +29,7 @@ run_cancensus_examples <- is_pkgdown && has_cancensus_key
 
 # Introduction
 
-This vignette demonstrates how to use the `bayesiansurprise` package with
+This vignette demonstrates how to use the `bayesiansurpriser` package with
 Canadian Census data accessed through the `cancensus` package. The cancensus
 package provides access to Canadian Census data from 1996 through 2021 via
 the CensusMapper API.
@@ -47,7 +47,7 @@ it provides:
 You'll need a CensusMapper API key from https://censusmapper.ca/users/sign_up
 
 ```{r load-packages}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(cancensus)
 library(sf)
 library(ggplot2)

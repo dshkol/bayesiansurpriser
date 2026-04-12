@@ -1,4 +1,4 @@
-Package: bayesiansurprise
+Package: bayesiansurpriser
 Title: Bayesian Surprise for De-Biasing Thematic Maps
 Version: 0.1.0
 Authors@R:
@@ -13,8 +13,8 @@ Description: Implements Bayesian Surprise methodology for data visualization,
     Integrates seamlessly with 'sf' for spatial data and 'ggplot2' for
     visualization. Supports temporal/streaming data analysis.
 License: MIT + file LICENSE
-URL: https://dshkol.github.io/bayesiansurprise/, https://github.com/dshkol/bayesiansurprise
-BugReports: https://github.com/dshkol/bayesiansurprise/issues
+URL: https://dshkol.github.io/bayesiansurpriser/, https://github.com/dshkol/bayesiansurpriser
+BugReports: https://github.com/dshkol/bayesiansurpriser/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

@@ -18,14 +18,14 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(sf)
 library(ggplot2)
 ```
 
 ## Overview
 
-The `bayesiansurprise` package provides seamless ggplot2 integration through custom scales and computed surprise values that can be mapped to aesthetics.
+The `bayesiansurpriser` package provides seamless ggplot2 integration through custom scales and computed surprise values that can be mapped to aesthetics.
 
 ## Loading Example Data
 

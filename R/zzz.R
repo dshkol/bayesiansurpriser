@@ -1,6 +1,6 @@
 # Package Hooks
 #
-# .onLoad and .onAttach hooks for bayesiansurprise package.
+# .onLoad and .onAttach hooks for bayesiansurpriser package.
 
 .onLoad <- function(libname, pkgname) {
   # Register S3 methods for sf if available
@@ -13,7 +13,7 @@
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
-    "bayesiansurprise: Bayesian Surprise for De-Biasing Thematic Maps\n",
+    "bayesiansurpriser: Bayesian Surprise for De-Biasing Thematic Maps\n",
     "Inspired by Correll & Heer (2017) - IEEE InfoVis"
   )
 }

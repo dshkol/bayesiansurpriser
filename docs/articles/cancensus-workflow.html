@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Bayesian Surprise with Canadian Census Data (cancensus) • bayesiansurprise</title>
+<title>Bayesian Surprise with Canadian Census Data (cancensus) • bayesiansurpriser</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">bayesiansurprise</a>
+    <a class="navbar-brand me-2" href="../index.html">bayesiansurpriser</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
@@ -57,7 +57,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dshkol/bayesiansurprise/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dshkol/bayesiansurpriser/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -74,7 +74,7 @@
       <h1>Bayesian Surprise with Canadian Census Data (cancensus)</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dshkol/bayesiansurprise/blob/HEAD/vignettes/cancensus-workflow.Rmd" class="external-link"><code>vignettes/cancensus-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dshkol/bayesiansurpriser/blob/HEAD/vignettes/cancensus-workflow.Rmd" class="external-link"><code>vignettes/cancensus-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>cancensus-workflow.Rmd</code></div>
     </div>
 
@@ -84,10 +84,10 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>This vignette demonstrates how to use the
-<code>bayesiansurprise</code> package with Canadian Census data accessed
-through the <code>cancensus</code> package. The cancensus package
-provides access to Canadian Census data from 1996 through 2021 via the
-CensusMapper API.</p>
+<code>bayesiansurpriser</code> package with Canadian Census data
+accessed through the <code>cancensus</code> package. The cancensus
+package provides access to Canadian Census data from 1996 through 2021
+via the CensusMapper API.</p>
 <p>Canadian Census data is a useful setting for Bayesian Surprise
 analysis because it provides:</p>
 <ul>
@@ -101,7 +101,7 @@ analysis because it provides:</p>
 </h3>
 <p>You’ll need a CensusMapper API key from <a href="https://censusmapper.ca/users/sign_up" class="external-link uri">https://censusmapper.ca/users/sign_up</a></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dshkol.github.io/bayesiansurprise/">bayesiansurprise</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dshkol.github.io/bayesiansurpriser/">bayesiansurpriser</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mountainMath/cancensus" class="external-link">cancensus</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -816,8 +816,8 @@ sampling variation.</p>
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] dplyr_1.1.4            ggplot2_4.0.1          sf_1.0-23             </span></span>
-<span><span class="co">#&gt; [4] cancensus_0.5.7        bayesiansurprise_0.1.0</span></span>
+<span><span class="co">#&gt; [1] dplyr_1.1.4             ggplot2_4.0.1           sf_1.0-23              </span></span>
+<span><span class="co">#&gt; [4] cancensus_0.5.7         bayesiansurpriser_0.1.0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] sass_0.4.10        generics_0.1.4     class_7.3-23       KernSmooth_2.23-26</span></span>

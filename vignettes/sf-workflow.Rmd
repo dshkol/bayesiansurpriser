@@ -18,14 +18,14 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(sf)
 library(ggplot2)
 ```
 
 ## Overview
 
-The `bayesiansurprise` package is designed for seamless integration with the `sf` package for spatial data. This vignette demonstrates workflows for analyzing spatial data.
+The `bayesiansurpriser` package is designed for seamless integration with the `sf` package for spatial data. This vignette demonstrates workflows for analyzing spatial data.
 
 ## Basic sf Workflow
 

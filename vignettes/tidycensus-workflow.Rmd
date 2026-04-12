@@ -28,7 +28,7 @@ run_tidycensus_examples <- is_pkgdown && has_census_key
 
 # Introduction
 
-This vignette demonstrates how to use the `bayesiansurprise` package with US Census
+This vignette demonstrates how to use the `bayesiansurpriser` package with US Census
 data accessed through the `tidycensus` package.
 
 **Important**: Bayesian Surprise is conditional on the model space you choose.
@@ -51,7 +51,7 @@ The examples below are most interpretable for:
 You'll need a Census API key from https://api.census.gov/data/key_signup.html
 
 ```{r load-packages}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(tidycensus)
 library(tigris)
 library(sf)

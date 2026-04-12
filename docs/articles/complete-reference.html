@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Complete Function Reference with Examples • bayesiansurprise</title>
+<title>Complete Function Reference with Examples • bayesiansurpriser</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">bayesiansurprise</a>
+    <a class="navbar-brand me-2" href="../index.html">bayesiansurpriser</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
@@ -57,7 +57,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dshkol/bayesiansurprise/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dshkol/bayesiansurpriser/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -74,20 +74,20 @@
       <h1>Complete Function Reference with Examples</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dshkol/bayesiansurprise/blob/HEAD/vignettes/complete-reference.Rmd" class="external-link"><code>vignettes/complete-reference.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dshkol/bayesiansurpriser/blob/HEAD/vignettes/complete-reference.Rmd" class="external-link"><code>vignettes/complete-reference.Rmd</code></a></small>
       <div class="d-none name"><code>complete-reference.Rmd</code></div>
     </div>
 
     
     
 <div class="section level2">
-<h2 id="bayesiansurprise-complete-reference">bayesiansurprise: Complete Reference<a class="anchor" aria-label="anchor" href="#bayesiansurprise-complete-reference"></a>
+<h2 id="bayesiansurpriser-complete-reference">bayesiansurpriser: Complete Reference<a class="anchor" aria-label="anchor" href="#bayesiansurpriser-complete-reference"></a>
 </h2>
 <p>This vignette demonstrates all major functions in the
-<code>bayesiansurprise</code> package with working examples and
+<code>bayesiansurpriser</code> package with working examples and
 visualizations.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dshkol.github.io/bayesiansurprise/">bayesiansurprise</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dshkol.github.io/bayesiansurpriser/">bayesiansurpriser</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <hr>
@@ -165,7 +165,7 @@ and sf objects.</p>
 <span>    fill <span class="op">=</span> <span class="st">"Signed\nSurprise"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/surprise-sf-plot-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/surprise-sf-plot-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="auto_surprise---simple-vector-api">1.2 auto_surprise() - Simple Vector API<a class="anchor" aria-label="anchor" href="#auto_surprise---simple-vector-api"></a>
@@ -208,7 +208,7 @@ and sf objects.</p>
 <span>    fill <span class="op">=</span> <span class="st">"Direction"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/auto-surprise-plot-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/auto-surprise-plot-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="compute_surprise---low-level-function">1.3 compute_surprise() - Low-Level Function<a class="anchor" aria-label="anchor" href="#compute_surprise---low-level-function"></a>
@@ -426,7 +426,7 @@ and sf objects.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualize prior vs posterior</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">updated_space</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/bayesian-update-plot-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/bayesian-update-plot-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="cumulative_bayesian_update---sequential-updates">3.5 cumulative_bayesian_update() - Sequential Updates<a class="anchor" aria-label="anchor" href="#cumulative_bayesian_update---sequential-updates"></a>
@@ -509,11 +509,11 @@ and sf objects.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot temporal evolution</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temporal_result</span>, type <span class="op">=</span> <span class="st">"time_series"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/temporal-plot-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/temporal-plot-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Heatmap view</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temporal_result</span>, type <span class="op">=</span> <span class="st">"heatmap"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/temporal-heatmap-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/temporal-heatmap-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="update_surprise---streaming-updates">5.2 update_surprise() - Streaming Updates<a class="anchor" aria-label="anchor" href="#update_surprise---streaming-updates"></a>
@@ -553,7 +553,7 @@ and sf objects.</p>
 <span>     xlab <span class="op">=</span> <span class="st">"Window Position"</span>, ylab <span class="op">=</span> <span class="st">"Mean Surprise"</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Rolling Window Surprise"</span>, pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">window_means</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/rolling-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/rolling-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="get_surprise_at_time---extract-time-slice">5.4 get_surprise_at_time() - Extract Time Slice<a class="anchor" aria-label="anchor" href="#get_surprise_at_time---extract-time-slice"></a>
@@ -624,7 +624,7 @@ and sf objects.</p>
 <span>    color <span class="op">=</span> <span class="st">"Outside 2 SD"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/funnel-plot-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/funnel-plot-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="funnel_zscore-and-funnel_pvalue">6.2 funnel_zscore() and funnel_pvalue()<a class="anchor" aria-label="anchor" href="#funnel_zscore-and-funnel_pvalue"></a>
@@ -743,7 +743,7 @@ and sf objects.</p>
 <span>  <span class="fu"><a href="../reference/scale_fill_surprise.html">scale_fill_surprise</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"viridis"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Sequential Scale (Viridis)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/scale-sequential-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/scale-sequential-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="diverging-scale">Diverging Scale<a class="anchor" aria-label="anchor" href="#diverging-scale"></a>
@@ -754,7 +754,7 @@ and sf objects.</p>
 <span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Diverging Scale for Signed Surprise"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/scale-diverging-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/scale-diverging-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="binned-scale">Binned Scale<a class="anchor" aria-label="anchor" href="#binned-scale"></a>
@@ -765,7 +765,7 @@ and sf objects.</p>
 <span>  <span class="fu"><a href="../reference/scale_fill_surprise_binned.html">scale_fill_surprise_binned</a></span><span class="op">(</span>n.breaks <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Binned Scale (5 breaks)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/scale-binned-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/scale-binned-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="diverging-binned-scale">Diverging Binned Scale<a class="anchor" aria-label="anchor" href="#diverging-binned-scale"></a>
@@ -776,7 +776,7 @@ and sf objects.</p>
 <span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging_binned.html">scale_fill_surprise_diverging_binned</a></span><span class="op">(</span>n.breaks <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Diverging Binned Scale"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/scale-diverging-binned-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/scale-diverging-binned-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 </div>
 <div class="section level3">
@@ -788,7 +788,7 @@ and sf objects.</p>
 <span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"stat_surprise() Computes Inline"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/stat-surprise-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/stat-surprise-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="histogram-and-density-geoms">9.3 Histogram and Density Geoms<a class="anchor" aria-label="anchor" href="#histogram-and-density-geoms"></a>
@@ -800,14 +800,14 @@ and sf objects.</p>
 <span>  <span class="fu"><a href="../reference/geom_surprise_histogram.html">geom_surprise_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">15</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Distribution of Surprise Values"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/geom-histogram-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/geom-histogram-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">result</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">signed_surprise</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_surprise_density.html">geom_surprise_density</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#4575b4"</span>, alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Density of Signed Surprise"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/geom-density-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/geom-density-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 <hr>
 </div>
 </div>
@@ -875,7 +875,7 @@ and sf objects.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surprise.html">surprise</a></span><span class="op">(</span><span class="va">nc</span>, observed <span class="op">=</span> <span class="va">SID74</span>, expected <span class="op">=</span> <span class="va">BIR74</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result</span>, which <span class="op">=</span> <span class="st">"signed_surprise"</span>, main <span class="op">=</span> <span class="st">"Base R Plot: Signed Surprise"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/plot-sf-base-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/plot-sf-base-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="plot-bs_surprise">11.2 plot.bs_surprise()<a class="anchor" aria-label="anchor" href="#plot-bs_surprise"></a>
@@ -883,7 +883,7 @@ and sf objects.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">auto_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/auto_surprise.html">auto_surprise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">150</span>, <span class="fl">200</span>, <span class="fl">75</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">50000</span>, <span class="fl">100000</span>, <span class="fl">25000</span>, <span class="fl">15000</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">auto_result</span>, type <span class="op">=</span> <span class="st">"histogram"</span>, main <span class="op">=</span> <span class="st">"Surprise Distribution"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/plot-surprise-base-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/plot-surprise-base-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="plot-bs_model_space">11.3 plot.bs_model_space()<a class="anchor" aria-label="anchor" href="#plot-bs_model_space"></a>
@@ -892,14 +892,14 @@ and sf objects.</p>
 <code class="sourceCode R"><span><span class="va">space</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_space.html">model_space</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_model_uniform.html">bs_model_uniform</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/bs_model_baserate.html">bs_model_baserate</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">updated</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bayesian_update.html">bayesian_update</a></span><span class="op">(</span><span class="va">space</span>, <span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">updated</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/plot-model-space-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/plot-model-space-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="plot-bs_surprise_temporal">11.4 plot.bs_surprise_temporal()<a class="anchor" aria-label="anchor" href="#plot-bs_surprise_temporal"></a>
 </h3>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temporal_result</span>, type <span class="op">=</span> <span class="st">"cumulative"</span>, main <span class="op">=</span> <span class="st">"Cumulative Surprise Over Time"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="complete-reference_files/figure-html/plot-temporal-base-1.png" alt="Example visualization produced by a bayesiansurprise function." width="768"></p>
+<p><img src="complete-reference_files/figure-html/plot-temporal-base-1.png" alt="Example visualization produced by a bayesiansurpriser function." width="768"></p>
 <hr>
 </div>
 </div>
@@ -957,7 +957,7 @@ and sf objects.</p>
 <h3 id="canada_mischief">13.1 canada_mischief<a class="anchor" aria-label="anchor" href="#canada_mischief"></a>
 </h3>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">canada_mischief</span>, package <span class="op">=</span> <span class="st">"bayesiansurprise"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">canada_mischief</span>, package <span class="op">=</span> <span class="st">"bayesiansurpriser"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Canada mischief dataset:\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Canada mischief dataset:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Rows:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">canada_mischief</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
@@ -998,7 +998,7 @@ and sf objects.</p>
 <h3 id="example_counties">13.2 example_counties<a class="anchor" aria-label="anchor" href="#example_counties"></a>
 </h3>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">example_counties</span>, package <span class="op">=</span> <span class="st">"bayesiansurprise"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">example_counties</span>, package <span class="op">=</span> <span class="st">"bayesiansurpriser"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Example counties dataset:\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Example counties dataset:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Class:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">example_counties</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"\n"</span><span class="op">)</span></span>
@@ -1033,7 +1033,7 @@ and sf objects.</p>
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] ggplot2_4.0.1          sf_1.0-23              bayesiansurprise_0.1.0</span></span>
+<span><span class="co">#&gt; [1] ggplot2_4.0.1           sf_1.0-23               bayesiansurpriser_0.1.0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] gtable_0.3.6       jsonlite_2.0.0     dplyr_1.1.4        compiler_4.5.0    </span></span>

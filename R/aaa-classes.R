@@ -1,4 +1,4 @@
-# S3 Class Definitions for bayesiansurprise
+# S3 Class Definitions for bayesiansurpriser
 #
 # This file defines the core S3 classes used throughout the package:
 # - bs_model: Base class for probability models

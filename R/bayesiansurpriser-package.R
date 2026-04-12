@@ -1,4 +1,4 @@
-#' bayesiansurprise: Bayesian Surprise for De-Biasing Thematic Maps
+#' bayesiansurpriser: Bayesian Surprise for De-Biasing Thematic Maps
 #'
 #' @description
 #' Implements Bayesian Surprise calculations for data visualization, inspired by

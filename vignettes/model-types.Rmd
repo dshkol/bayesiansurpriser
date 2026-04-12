@@ -17,13 +17,13 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(sf)
 ```
 
 ## Overview
 
-The `bayesiansurprise` package provides five model types that represent different hypotheses about how data might be distributed. Bayesian Surprise measures how much our beliefs about which model is correct change after observing data.
+The `bayesiansurpriser` package provides five model types that represent different hypotheses about how data might be distributed. Bayesian Surprise measures how much our beliefs about which model is correct change after observing data.
 
 ## The Five Model Types
 

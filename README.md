@@ -1,10 +1,10 @@
-# bayesiansurprise
+# bayesiansurpriser
 
 Bayesian Surprise for De-Biasing Thematic Maps in R
 
 ## Overview
 
-`bayesiansurprise` implements Bayesian Surprise calculations for thematic maps, inspired by Correll & Heer's "Surprise! Bayesian Weighting for De-Biasing Thematic Maps" (IEEE InfoVis 2016). The default calculation normalizes posterior model probabilities and measures how much each observation updates beliefs about a specified model space.
+`bayesiansurpriser` implements Bayesian Surprise calculations for thematic maps, inspired by Correll & Heer's "Surprise! Bayesian Weighting for De-Biasing Thematic Maps" (IEEE InfoVis 2016). The default calculation normalizes posterior model probabilities and measures how much each observation updates beliefs about a specified model space.
 
 The package provides seamless integration with:
 - **sf**: Simple Features for spatial data
@@ -16,12 +16,12 @@ The package provides seamless integration with:
 ```r
 # Install from GitHub (development version)
 # install.packages("devtools")
-devtools::install_github("dshkol/bayesiansurprise")
+devtools::install_github("dshkol/bayesiansurpriser")
 ```
 ## Quick Start
 
 ```r
-library(bayesiansurprise)
+library(bayesiansurpriser)
 library(sf)
 library(ggplot2)
 

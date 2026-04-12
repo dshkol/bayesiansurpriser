@@ -2,6 +2,6 @@
 # It is recommended that you do not modify it.
 
 library(testthat)
-library(bayesiansurprise)
+library(bayesiansurpriser)
 
-test_check("bayesiansurprise")
+test_check("bayesiansurpriser")
