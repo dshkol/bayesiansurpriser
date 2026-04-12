@@ -3,9 +3,8 @@
 *.Rcheck/
 ..Rcheck/
 
-# Rendered vignette HTML (keep in vignettes/ but not docs/)
+# Rendered vignette HTML outside the pkgdown site
 vignettes/*.html
-docs/*.html
 
 # RStudio files
 .Rproj.user/
