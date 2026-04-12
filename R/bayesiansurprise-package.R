@@ -1,13 +1,13 @@
 #' bayesiansurprise: Bayesian Surprise for De-Biasing Thematic Maps
 #'
 #' @description
-#' Implements Bayesian Surprise methodology for data visualization, based on
+#' Implements Bayesian Surprise calculations for data visualization, inspired by
 #' Correll & Heer (2017) "Surprise! Bayesian Weighting for De-Biasing Thematic
 #' Maps" (IEEE InfoVis 2016).
 #'
 #' The technique measures "surprise" using KL-divergence between prior and
 #' posterior probability distributions across a model space. This approach
-#' addresses three key biases in thematic maps:
+#' can help analyze three key biases in thematic maps:
 #'
 #' 1. **Base rate bias**: Visual prominence dominated by underlying rates
 #'    (e.g., population density)

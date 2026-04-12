@@ -14,6 +14,6 @@
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
     "bayesiansurprise: Bayesian Surprise for De-Biasing Thematic Maps\n",
-    "Based on Correll & Heer (2017) - IEEE InfoVis"
+    "Inspired by Correll & Heer (2017) - IEEE InfoVis"
   )
 }

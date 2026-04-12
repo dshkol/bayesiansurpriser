@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.width = 7,
-  fig.height = 5
+  fig.height = 5,
+  fig.alt = "Spatial map of Bayesian surprise values for an sf object."
 )
 ```
 
@@ -149,9 +150,10 @@ custom_space <- model_space(
 result_custom <- surprise(nc, observed = SID74, expected = BIR74,
                           models = custom_space)
 
-# Examine posterior model weights
+# Compute a global posterior model update explicitly if needed
+updated_space <- bayesian_update(custom_space, nc$SID74)
 cat("Prior:", custom_space$prior, "\n")
-cat("Posterior:", result_custom$model_space$posterior, "\n")
+cat("Posterior:", updated_space$posterior, "\n")
 ```
 
 ## Integration with dplyr

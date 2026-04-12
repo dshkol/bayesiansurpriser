@@ -22,9 +22,11 @@ bs_model_funnel(
 
 \item{formula}{Formula for likelihood computation:
 \itemize{
-\item "paper" (default): Matches Correll & Heer (2017) exactly.
-Uses dM = Z * sqrt(pop_frac) and P(D|M) = 2*pnorm(-|dM|).
-\item "poisson": Uses Poisson-based SE and normal PDF as likelihood.
+\item "paper" (default): Uses the funnel score from the paper's unemployment
+data (\code{dM = Z * sqrt(pop_frac)}) and converts it to a two-tailed normal
+tail probability.
+\item "poisson": Uses Poisson-based standard error and converts the resulting
+z-score to a two-tailed normal tail probability.
 }}
 
 \item{control_limits}{Numeric vector of control limits (in SDs) for funnel plot.
@@ -45,8 +47,9 @@ The de Moivre funnel model uses the insight that sampling variability
 decreases with sample size according to de Moivre's equation:
 \deqn{SE = \sigma / \sqrt{n}}
 
-With formula = "paper" (recommended):
-The model uses the exact formulas from Correll & Heer (2017):
+With formula = "paper":
+The model uses the formula that matches the paper's unemployment reference
+data:
 \deqn{Z = (rate - mean_rate) / stddev_rate}
 \deqn{dM = Z \times \sqrt{population / total\_population}}
 \deqn{P(D|M) = 2 \times \Phi(-|dM|)}
@@ -73,7 +76,7 @@ This model is essential for:
 # Population sizes for regions
 population <- c(10000, 50000, 100000, 25000)
 
-# Funnel model matching the paper (recommended)
+# Funnel model using the paper's unemployment-reference formula
 model <- bs_model_funnel(population, formula = "paper")
 
 # Funnel model with known target rate

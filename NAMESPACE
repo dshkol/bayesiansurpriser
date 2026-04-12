@@ -3,6 +3,7 @@
 S3method(get_model_space,bs_surprise)
 S3method(get_model_space,bs_surprise_sf)
 S3method(get_surprise,bs_surprise)
+S3method(get_surprise,bs_surprise_df)
 S3method(get_surprise,bs_surprise_sf)
 S3method(plot,bs_model_space)
 S3method(plot,bs_surprise)

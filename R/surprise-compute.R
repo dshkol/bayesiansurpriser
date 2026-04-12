@@ -22,9 +22,11 @@
 #' @param prior Numeric vector of prior probabilities for models.
 #'   Only used when `models` is a character vector or list.
 #' @param signed Logical; compute signed surprise?
-#' @param normalize_posterior Logical; if TRUE (default), normalizes posteriors.
-#'   If FALSE, uses unnormalized posteriors matching the original Correll & Heer
-#'   (2017) JavaScript implementation. Use FALSE to replicate paper results exactly.
+#' @param normalize_posterior Logical; if TRUE (default), normalizes posteriors
+#'   before computing KL divergence. This is the standard Bayesian Surprise
+#'   calculation. If FALSE, uses the unnormalized per-region posterior weights
+#'   used by the original Correll & Heer JavaScript demo; this option is
+#'   retained only for legacy comparison.
 #' @param ... Additional arguments passed to model likelihood functions
 #'
 #' @return For data frames: the input with `surprise` (and optionally
@@ -265,7 +267,8 @@ build_model_space_from_spec <- function(spec, expected = NULL, sample_size = NUL
 
 #' Compute Surprise with Automatic Model Selection
 #'
-#' Simplified interface that automatically selects appropriate models.
+#' Simplified interface that automatically selects appropriate models and
+#' computes per-observation surprise from the model priors.
 #'
 #' @param observed Numeric vector of observed values
 #' @param expected Numeric vector of expected values (optional)
@@ -310,11 +313,8 @@ auto_surprise <- function(observed,
 
   space <- model_space(models)
 
-  # Perform global Bayesian update to get posterior
-  updated_space <- bayesian_update(space, observed)
-
   result <- compute_surprise(
-    model_space = updated_space,
+    model_space = space,
     observed = observed,
     expected = expected,
     return_signed = signed,

@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.width = 7,
-  fig.height = 5
+  fig.height = 5,
+  fig.alt = "Temporal plot showing Bayesian surprise or model posterior values over time."
 )
 ```
 
@@ -68,7 +69,10 @@ initial_exp <- c(10000, 20000, 15000, 18000)
 result <- auto_surprise(initial_obs, initial_exp)
 mspace <- get_model_space(result)
 cat("Initial prior:", round(mspace$prior, 3), "\n")
-cat("Initial posterior:", round(mspace$posterior, 3), "\n")
+
+# If you want posterior model weights for the initial batch, update explicitly.
+updated_mspace <- bayesian_update(mspace, initial_obs)
+cat("Initial posterior:", round(updated_mspace$posterior, 3), "\n")
 
 # New observation arrives
 new_obs <- c(55, 110, 80, 85)

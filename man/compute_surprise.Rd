@@ -29,8 +29,10 @@ compute_surprise(
 \item{return_contributions}{Logical; return per-model contributions?}
 
 \item{normalize_posterior}{Logical; if TRUE (default), normalizes posteriors
-to sum to 1. If FALSE, uses unnormalized posteriors (P(D|M) * P(M)) which
-matches the original Correll & Heer (2017) JavaScript implementation.}
+to sum to 1 before computing KL divergence. This is the standard Bayesian
+Surprise calculation. If FALSE, uses unnormalized posterior weights
+(\code{P(D|M) * P(M)}) for comparison with the original Correll & Heer
+JavaScript demo output.}
 
 \item{...}{Additional arguments passed to likelihood functions}
 }
@@ -49,8 +51,8 @@ For each region i, computes:
 \item Optionally, the sign based on deviation direction
 }
 
-When \code{normalize_posterior = FALSE}, the function matches the original paper's
-JavaScript implementation which uses unnormalized posteriors in the KL
-computation. This is mathematically unconventional but reproduces the
-published results exactly.
+\code{normalize_posterior = FALSE} is a legacy replication mode for the original
+JavaScript demo's per-region map calculation. It is not a proper KL
+divergence between probability distributions and should not be used as the
+default method for new analyses.
 }

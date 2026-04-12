@@ -4,7 +4,7 @@ Bayesian Surprise for De-Biasing Thematic Maps in R
 
 ## Overview
 
-`bayesiansurprise` implements the Bayesian Surprise methodology from Correll & Heer's "Surprise! Bayesian Weighting for De-Biasing Thematic Maps" (IEEE InfoVis 2016). This technique measures how much observed data updates beliefs about a set of models, highlighting unexpected patterns while de-biasing against known factors like population density.
+`bayesiansurprise` implements Bayesian Surprise calculations for thematic maps, inspired by Correll & Heer's "Surprise! Bayesian Weighting for De-Biasing Thematic Maps" (IEEE InfoVis 2016). The default calculation normalizes posterior model probabilities and measures how much each observation updates beliefs about a specified model space.
 
 The package provides seamless integration with:
 - **sf**: Simple Features for spatial data
@@ -96,11 +96,11 @@ Traditional thematic maps suffer from three key biases:
 2. **Sampling Error Bias**: Sparse regions show misleadingly high variability
 3. **Renormalization Bias**: Dynamic scaling suppresses important patterns
 
-Bayesian Surprise addresses all three by weighting data relative to models.
+Bayesian Surprise can help address these biases by comparing observations against explicit models, such as population base rates and sampling-variation models.
 
 ## How It Works
 
-The technique uses KL-divergence to measure "surprise":
+The default method uses KL-divergence to measure "surprise":
 
 ```
 Surprise = KL(P(M|D) || P(M))
@@ -111,6 +111,11 @@ Where:
 - `P(M)` = Prior probability of model M
 - `P(M|D)` = Posterior probability after observing data D
 - High surprise = data significantly updates our beliefs
+
+The original JavaScript demo associated with the paper used an unnormalized
+per-region score for some map outputs. This package keeps that behavior only as
+an explicit legacy comparison option (`normalize_posterior = FALSE`); new
+analyses should use the normalized default.
 
 ## References
 

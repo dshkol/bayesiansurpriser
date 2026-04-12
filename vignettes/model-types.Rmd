@@ -149,18 +149,18 @@ cat("With base rate, max surprise:", max(result_pop$surprise), "\n")
 cat("Full model space, max surprise:", max(result_full$surprise), "\n")
 ```
 
-## Posterior Model Weights
+## Global Model Updates
 
-After computing surprise, you can examine how beliefs about models have changed:
+Per-region surprise scores use the model-space priors for each observation.
+If you want a single global posterior over models after observing the full
+dataset, call `bayesian_update()` explicitly:
 
 ```{r posteriors}
-result <- surprise(nc, observed = SID74, expected = BIR74)
+space <- default_model_space(nc$BIR74)
+updated_space <- bayesian_update(space, nc$SID74)
 
-# Prior weights
-cat("Prior:", result$model_space$prior, "\n")
-
-# Posterior weights (after seeing all data)
-cat("Posterior:", result$model_space$posterior, "\n")
+cat("Prior:", updated_space$prior, "\n")
+cat("Posterior:", updated_space$posterior, "\n")
 ```
 
 ## Guidelines for Model Selection
@@ -170,6 +170,6 @@ cat("Posterior:", result$model_space$posterior, "\n")
 | Raw counts, no baseline | Uniform, Gaussian |
 | Counts with population data | Uniform, Base Rate, Funnel |
 | Rates/proportions | Uniform, Base Rate |
-| Exploratory analysis | Default (all three) |
+| Exploratory count/exposure analysis | Uniform, Base Rate, Funnel |
 | Small samples prevalent | Include Funnel |
 | Unknown distribution | Include Sampled/KDE |

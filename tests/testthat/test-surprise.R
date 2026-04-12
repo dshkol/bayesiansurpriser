@@ -101,3 +101,24 @@ test_that("auto_surprise uses baserate and funnel when expected provided", {
   # Should have 3 models: uniform, baserate, funnel
   expect_equal(result$model_space$n_models, 3)
 })
+
+test_that("auto_surprise matches explicit model-space computation", {
+  observed <- c(50, 100, 150, 200)
+  expected <- c(10000, 50000, 100000, 25000)
+
+  expected_result <- compute_surprise(
+    model_space(
+      bs_model_uniform(),
+      bs_model_baserate(expected),
+      bs_model_funnel(expected)
+    ),
+    observed = observed,
+    expected = expected
+  )
+
+  result <- auto_surprise(observed, expected)
+
+  expect_equal(result$surprise, expected_result$surprise)
+  expect_equal(result$signed_surprise, expected_result$signed_surprise)
+  expect_null(result$model_space$posterior)
+})

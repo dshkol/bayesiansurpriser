@@ -6,8 +6,10 @@
 ^\.github$
 ^_pkgdown\.yml$
 ^docs$
+^figure$
 ^pkgdown$
 ^\.lintr$
 ^codecov\.yml$
 ^\.claude$
 ^\.\.Rcheck$
+^notes$

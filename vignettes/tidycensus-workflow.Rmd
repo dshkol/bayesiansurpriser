@@ -17,8 +17,13 @@ knitr::opts_chunk$set(
   fig.width = 8,
   fig.height = 6,
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  fig.alt = "US Census example visualization of Bayesian surprise or funnel plot values."
 )
+
+is_pkgdown <- identical(Sys.getenv("IN_PKGDOWN"), "true")
+has_census_key <- nzchar(Sys.getenv("CENSUS_API_KEY"))
+run_tidycensus_examples <- is_pkgdown && has_census_key
 ```
 
 # Introduction
@@ -26,21 +31,20 @@ knitr::opts_chunk$set(
 This vignette demonstrates how to use the `bayesiansurprise` package with US Census
 data accessed through the `tidycensus` package.
 
-**Important**: The Bayesian Surprise methodology from Correll & Heer (2017) works best
-when comparing regions with **similar population sizes**. When populations span many
-orders of magnitude (as with US counties, ranging from 47 to 10 million), the funnel
-model will flag small regions with *average* rates as "surprising" while large regions
-with *extreme* rates may show low surprise. This is statistically correct but can be
-counterintuitive for visualization.
+**Important**: Bayesian Surprise is conditional on the model space you choose.
+For count/exposure data, population size can strongly affect the posterior model
+update because sampling variation is much smaller in large populations than in
+small populations. Compare results against the raw rate and a funnel plot before
+interpreting a map.
 
 ## When to Use Bayesian Surprise
 
-The methodology works best for:
+The examples below are most interpretable for:
 
 - **State-level comparisons** where populations are more similar
 - **Counties within a single state** (similar geographic scale)
 - **Census tracts within a metro area** (similar population sizes)
-- **Any dataset where populations don't span orders of magnitude**
+- **Any dataset where populations do not span orders of magnitude**
 
 ## Prerequisites
 
@@ -62,10 +66,11 @@ library(dplyr)
 
 # Example 1: State-Level Poverty Analysis
 
-State-level analysis works well because state populations are more comparable
-(ranging from ~580K to ~39M - about 2 orders of magnitude).
+State-level analysis is a useful starting point because state populations are
+more comparable than county populations (ranging from ~580K to ~39M, about 2
+orders of magnitude).
 
-```{r state-poverty}
+```{r state-poverty, eval=run_tidycensus_examples}
 # Get state-level poverty data
 state_poverty <- get_acs(
   geography = "state",
@@ -96,8 +101,8 @@ state_surprise <- surprise(
 cat("Surprise value range:", round(range(state_surprise$surprise), 4), "\n")
 ```
 
-```{r state-results}
-# States with surprisingly HIGH poverty
+```{r state-results, eval=run_tidycensus_examples}
+# States with positive signed surprise
 state_surprise %>%
   st_drop_geometry() %>%
   filter(signed_surprise > 0) %>%
@@ -106,8 +111,8 @@ state_surprise %>%
   head(10)
 ```
 
-```{r state-low}
-# States with surprisingly LOW poverty
+```{r state-low, eval=run_tidycensus_examples}
+# States with negative signed surprise
 state_surprise %>%
   st_drop_geometry() %>%
   filter(signed_surprise < 0) %>%
@@ -118,7 +123,7 @@ state_surprise %>%
 
 ## Visualize State-Level Results
 
-```{r state-map, fig.width=10, fig.height=6}
+```{r state-map, fig.width=10, fig.height=6, eval=run_tidycensus_examples}
 # Shift AK/HI for visualization
 state_surprise_shifted <- state_surprise %>%
   shift_geometry()
@@ -147,9 +152,10 @@ ggplot(state_surprise_shifted) +
 
 # Example 2: Funnel Plot Visualization
 
-Funnel plots show how rates vary with population size and identify outliers.
+Funnel plots show how rates vary with population size and provide context for
+sampling variation.
 
-```{r funnel-plot, fig.width=9, fig.height=6}
+```{r funnel-plot, fig.width=9, fig.height=6, eval=run_tidycensus_examples}
 library(ggrepel)
 
 # Compute funnel data
@@ -206,7 +212,7 @@ ggplot() +
   scale_y_continuous(labels = scales::percent) +
   labs(
     title = "Funnel Plot: State Poverty Rates",
-    subtitle = "States outside bands have surprising rates given population size",
+    subtitle = "States outside bands have rates that are unusual for their population size",
     x = "Population (log scale)",
     y = "Poverty Rate"
   ) +
@@ -221,9 +227,10 @@ seeing only the narrow right edge of what would be a funnel.
 ## County-Level Funnel (Classic Shape)
 
 To see a true funnel, we need data spanning many orders of magnitude. US counties
-range from ~50 to ~10 million people - perfect for illustrating the concept.
+range from ~50 to ~10 million people, making the changing uncertainty bands
+easy to see.
 
-```{r county-funnel, fig.width=9, fig.height=7}
+```{r county-funnel, fig.width=9, fig.height=7, eval=run_tidycensus_examples}
 # Get all county poverty data (no geometry needed for funnel plot)
 county_poverty_all <- get_acs(
   geography = "county",
@@ -312,21 +319,23 @@ ggplot() +
 
 **Key insight**: Small counties (left side) have wide control bands - rates from
 5% to 25% are all "expected" given sampling variation. Large counties (right side)
-have narrow bands - any deviation from ~13% is statistically surprising.
+have narrow bands, so smaller deviations from ~13% can strongly update the
+model posterior.
 
-This explains why the Bayesian Surprise methodology can be counterintuitive:
-- A tiny county with a 13% poverty rate (exactly average) falling inside wide
-  bands may actually be "surprising" because we'd expect more variation
-- A large county with 20% poverty is clearly outside the narrow bands
+This explains why Bayesian Surprise can differ from a rate map:
+- A small county with an extreme rate may still be plausible under a
+  sampling-variation model.
+- A large county with a modest rate difference can produce a strong model
+  update because its sampling variation is small.
 
 ***
 
 # Example 3: Tract-Level Analysis (Same-Scale Comparison)
 
 Census tracts within a metro area have similar populations (~2,000-8,000),
-making them ideal for Bayesian Surprise analysis.
+making the model comparison easier to interpret than an all-county national map.
 
-```{r tract-analysis, fig.width=9, fig.height=7}
+```{r tract-analysis, fig.width=9, fig.height=7, eval=run_tidycensus_examples}
 # Get tract-level data for Cook County (Chicago)
 chicago_tracts <- get_acs(
   geography = "tract",
@@ -349,7 +358,7 @@ chicago_tracts <- chicago_tracts %>%
 cat("Population range:", range(chicago_tracts$total_popE), "\n")
 cat("Number of tracts:", nrow(chicago_tracts), "\n")
 
-# Compute surprise - funnel works well here since populations are similar
+# Compute surprise with a population baseline and sampling-variation model.
 chicago_surprise <- surprise(
   chicago_tracts,
   observed = in_povertyE,
@@ -373,8 +382,8 @@ ggplot(chicago_surprise) +
   theme_void()
 ```
 
-```{r tract-top}
-# Most surprising tracts
+```{r tract-top, eval=run_tidycensus_examples}
+# Largest signed surprise values under this model space
 chicago_surprise %>%
   st_drop_geometry() %>%
   mutate(poverty_rate = in_povertyE / total_popE) %>%
@@ -390,7 +399,7 @@ chicago_surprise %>%
 When analyzing all US counties, filtering to larger populations gives more
 interpretable results since the funnel model won't dominate.
 
-```{r large-counties, fig.width=10, fig.height=6}
+```{r large-counties, fig.width=10, fig.height=6, eval=run_tidycensus_examples}
 # Get county data
 county_poverty <- get_acs(
   geography = "county",
@@ -423,9 +432,9 @@ large_surprise <- surprise(
 )
 ```
 
-```{r large-counties-top}
-# Top surprising large counties
-cat("=== SURPRISINGLY HIGH POVERTY (large counties) ===\n")
+```{r large-counties-top, eval=run_tidycensus_examples}
+# Largest positive signed surprise values
+cat("=== POSITIVE SIGNED SURPRISE (large counties) ===\n")
 large_surprise %>%
   st_drop_geometry() %>%
   filter(signed_surprise > 0) %>%
@@ -434,8 +443,8 @@ large_surprise %>%
   head(10)
 ```
 
-```{r large-counties-low}
-cat("=== SURPRISINGLY LOW POVERTY (large counties) ===\n")
+```{r large-counties-low, eval=run_tidycensus_examples}
+cat("=== NEGATIVE SIGNED SURPRISE (large counties) ===\n")
 large_surprise %>%
   st_drop_geometry() %>%
   filter(signed_surprise < 0) %>%
@@ -444,7 +453,7 @@ large_surprise %>%
   head(10)
 ```
 
-```{r large-counties-map, fig.width=10, fig.height=6}
+```{r large-counties-map, fig.width=10, fig.height=6, eval=run_tidycensus_examples}
 ggplot(large_surprise) +
   geom_sf(aes(fill = signed_surprise), color = "white", linewidth = 0.1) +
   scale_fill_gradient2(
@@ -470,21 +479,22 @@ The funnel model accounts for sampling variation - small populations have higher
 expected variance in rates. This means:
 
 1. A 60% poverty rate in a county of 500 people is "expected" to vary widely
-2. A 60% poverty rate in a county of 500,000 people is genuinely surprising
+2. A 60% poverty rate in a county of 500,000 people produces a much stronger
+   model update
 
-This is statistically correct but can be counterintuitive. When populations span
-many orders of magnitude, the funnel model may flag small regions with *average*
-rates as surprising (because they "shouldn't" be so close to the mean).
+When populations span many orders of magnitude, the funnel model can dominate
+the model comparison. Use the surprise map together with the rate map and funnel
+plot so the source of the model update is visible.
 
 ## Recommendations
 
 | Data Type | Recommended Approach |
 |-----------|---------------------|
-| States | Full model suite works well |
+| States | Full model suite can be useful with funnel-plot context |
 | All counties | Filter to >50k or >100k population |
-| Counties in one state | Works well (similar scales) |
-| Census tracts | Works very well (similar populations) |
-| Block groups | Works very well |
+| Counties in one state | Often easier to interpret than all counties |
+| Census tracts | Good fit when tract populations are comparable |
+| Block groups | Use with care; inspect sample-size variation |
 
 ***
 

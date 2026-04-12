@@ -33,7 +33,8 @@ auto_surprise(
 A \code{bs_surprise} object
 }
 \description{
-Simplified interface that automatically selects appropriate models.
+Simplified interface that automatically selects appropriate models and
+computes per-observation surprise from the model priors.
 }
 \examples{
 observed <- c(50, 100, 150, 200, 75)

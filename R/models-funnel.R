@@ -12,9 +12,11 @@
 #' @param target_rate Target rate/proportion. If NULL, estimated from data.
 #' @param type Type of data: "count" (Poisson) or "proportion" (binomial)
 #' @param formula Formula for likelihood computation:
-#'   - "paper" (default): Matches Correll & Heer (2017) exactly.
-#'     Uses dM = Z * sqrt(pop_frac) and P(D|M) = 2*pnorm(-|dM|).
-#'   - "poisson": Uses Poisson-based SE and normal PDF as likelihood.
+#'   - "paper" (default): Uses the funnel score from the paper's unemployment
+#'     data (`dM = Z * sqrt(pop_frac)`) and converts it to a two-tailed normal
+#'     tail probability.
+#'   - "poisson": Uses Poisson-based standard error and converts the resulting
+#'     z-score to a two-tailed normal tail probability.
 #' @param control_limits Numeric vector of control limits (in SDs) for funnel plot.
 #'   Default is c(2, 3) for warning and control limits.
 #' @param name Optional name for the model
@@ -26,8 +28,9 @@
 #' decreases with sample size according to de Moivre's equation:
 #' \deqn{SE = \sigma / \sqrt{n}}
 #'
-#' With formula = "paper" (recommended):
-#' The model uses the exact formulas from Correll & Heer (2017):
+#' With formula = "paper":
+#' The model uses the formula that matches the paper's unemployment reference
+#' data:
 #' \deqn{Z = (rate - mean_rate) / stddev_rate}
 #' \deqn{dM = Z \times \sqrt{population / total\_population}}
 #' \deqn{P(D|M) = 2 \times \Phi(-|dM|)}
@@ -53,7 +56,7 @@
 #' # Population sizes for regions
 #' population <- c(10000, 50000, 100000, 25000)
 #'
-#' # Funnel model matching the paper (recommended)
+#' # Funnel model using the paper's unemployment-reference formula
 #' model <- bs_model_funnel(population, formula = "paper")
 #'
 #' # Funnel model with known target rate
@@ -91,10 +94,10 @@ bs_model_funnel <- function(sample_size,
     }
 
     if (formula == "paper") {
-      # Correll & Heer (2017) paper formula
+      # Correll & Heer unemployment-reference formula
       # Compute rates
       rates <- observed / ss
-      # Paper uses UNWEIGHTED mean and std of rates (see models.js line 203-204)
+      # The reference data uses unweighted mean and SD of rates.
       mean_rate <- mean(rates, na.rm = TRUE)
       stddev_rate <- stats::sd(rates, na.rm = TRUE)
 

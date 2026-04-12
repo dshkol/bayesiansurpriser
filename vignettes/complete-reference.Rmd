@@ -17,7 +17,8 @@ knitr::opts_chunk$set(
   fig.width = 8,
   fig.height = 5,
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  fig.alt = "Example visualization produced by a bayesiansurprise function."
 )
 ```
 

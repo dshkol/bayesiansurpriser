@@ -90,14 +90,14 @@ test_that("cumulative_bayesian_update accumulates correctly", {
   expect_equal(nrow(result$posterior_history), length(observed))
 })
 
-test_that("auto_surprise returns proper posteriors", {
+test_that("auto_surprise leaves global posterior unset", {
   observed <- c(50, 100, 150)
   expected <- c(10000, 50000, 100000)
 
   result <- auto_surprise(observed, expected)
   mspace <- get_model_space(result)
 
-  # Should have posteriors after update
-  expect_false(is.null(mspace$posterior))
-  expect_equal(sum(mspace$posterior), 1, tolerance = 1e-10)
+  # auto_surprise computes per-observation surprise from the prior. Global model
+  # updates are handled explicitly by bayesian_update().
+  expect_null(mspace$posterior)
 })

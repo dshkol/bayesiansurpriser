@@ -1,0 +1,209 @@
+url: https://dshkol.github.io/bayesiansurprise/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+
+home:
+  title: Bayesian Surprise for De-Biasing Thematic Maps
+  description: >
+    Bayesian Surprise calculations for thematic maps, inspired by
+    Correll & Heer (2017), with sf, ggplot2, tidycensus, and cancensus workflows.
+
+navbar:
+  structure:
+    left: [intro, reference, articles]
+    right: [search, github]
+  components:
+    intro:
+      text: Get started
+      href: articles/introduction.html
+    articles:
+      text: Articles
+      menu:
+        - text: "Getting Started"
+        - text: Introduction
+          href: articles/introduction.html
+        - text: Model Types
+          href: articles/model-types.html
+        - text: "---"
+        - text: "Visualization"
+        - text: ggplot2 Integration
+          href: articles/ggplot2-visualization.html
+        - text: Spatial Workflows (sf)
+          href: articles/sf-workflow.html
+        - text: "---"
+        - text: "Advanced Topics"
+        - text: Temporal Analysis
+          href: articles/temporal-analysis.html
+        - text: "---"
+        - text: "Census Data Workflows"
+        - text: US Census (tidycensus)
+          href: articles/tidycensus-workflow.html
+        - text: Canadian Census (cancensus)
+          href: articles/cancensus-workflow.html
+        - text: "---"
+        - text: Complete Reference
+          href: articles/complete-reference.html
+
+articles:
+  - title: Getting Started
+    navbar: ~
+    contents:
+      - introduction
+      - model-types
+
+  - title: Visualization
+    navbar: ~
+    contents:
+      - ggplot2-visualization
+      - sf-workflow
+
+  - title: Advanced Topics
+    navbar: ~
+    contents:
+      - temporal-analysis
+
+  - title: Census Data Workflows
+    desc: >
+      Practical examples using census data from the US and Canada.
+    contents:
+      - tidycensus-workflow
+      - cancensus-workflow
+
+  - title: Reference
+    navbar: ~
+    contents:
+      - complete-reference
+
+reference:
+  - title: Core Functions
+    desc: Main functions for computing Bayesian Surprise
+    contents:
+      - surprise
+      - compute_surprise
+      - auto_surprise
+      - st_surprise
+
+  - title: Model Constructors
+    desc: Create probability models for the model space
+    contents:
+      - bs_model_uniform
+      - bs_model_baserate
+      - bs_model_baserate_col
+      - bs_model_gaussian
+      - bs_model_gaussian_mixture
+      - bs_model_sampled
+      - bs_model_funnel
+      - bs_model_funnel_col
+      - bs_model_bootstrap
+
+  - title: Model Space
+    desc: Combine models and manage priors
+    contents:
+      - model_space
+      - default_model_space
+      - add_model
+      - remove_model
+      - set_prior
+      - model_names
+      - n_models
+
+  - title: Bayesian Updates
+    desc: Update beliefs with new data
+    contents:
+      - bayesian_update
+      - cumulative_bayesian_update
+      - update_surprise
+
+  - title: Temporal Analysis
+    desc: Analyze surprise over time
+    contents:
+      - surprise_temporal
+      - surprise_rolling
+      - surprise_animate
+      - get_surprise_at_time
+
+  - title: Funnel Plot Utilities
+    desc: Tools for funnel plot analysis
+    contents:
+      - compute_funnel_data
+      - funnel_zscore
+      - funnel_pvalue
+
+  - title: Result Accessors
+    desc: Extract values from surprise results
+    contents:
+      - get_surprise
+      - get_model_space
+
+  - title: Plot Methods
+    desc: Base R plotting methods for surprise objects
+    contents:
+      - plot.bs_surprise
+      - plot.bs_surprise_sf
+      - plot.bs_surprise_temporal
+      - plot.bs_model_space
+
+  - title: Spatial Functions
+    desc: Integration with sf spatial data
+    contents:
+      - st_surprise
+      - st_density
+      - st_density_at
+      - st_aggregate_surprise
+
+  - title: ggplot2 Scales
+    desc: Color scales for visualizing surprise
+    contents:
+      - scale_fill_surprise
+      - scale_fill_surprise_diverging
+      - scale_fill_surprise_binned
+      - scale_fill_surprise_diverging_binned
+      - scale_fill_surprise_thresholds
+      - scale_fill_surprise_manual
+      - scale_colour_surprise
+      - scale_colour_surprise_diverging
+      - scale_colour_surprise_binned
+      - scale_colour_surprise_thresholds
+
+  - title: ggplot2 Geoms and Stats
+    desc: Geometric objects and statistics for ggplot2
+    contents:
+      - geom_surprise
+      - geom_surprise_histogram
+      - geom_surprise_density
+      - stat_surprise
+      - stat_surprise_sf
+      - StatSurprise
+      - StatSurpriseSf
+
+  - title: Normalization Utilities
+    desc: Data normalization functions
+    contents:
+      - normalize_prob
+      - normalize_rate
+      - normalize_zscore
+      - normalize_minmax
+      - normalize_robust
+
+  - title: Mathematical Utilities
+    desc: Low-level mathematical functions
+    contents:
+      - kl_divergence
+      - log_sum_exp
+
+  - title: Sample Data
+    desc: Example datasets included with the package
+    contents:
+      - canada_mischief
+      - example_counties
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with

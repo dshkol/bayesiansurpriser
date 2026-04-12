@@ -13,7 +13,7 @@ Description: Implements Bayesian Surprise methodology for data visualization,
     Integrates seamlessly with 'sf' for spatial data and 'ggplot2' for
     visualization. Supports temporal/streaming data analysis.
 License: MIT + file LICENSE
-URL: https://github.com/dshkol/bayesiansurprise
+URL: https://dshkol.github.io/bayesiansurprise/, https://github.com/dshkol/bayesiansurprise
 BugReports: https://github.com/dshkol/bayesiansurprise/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

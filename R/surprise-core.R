@@ -162,8 +162,10 @@ bayesian_update <- function(model_space, observed, region_idx = NULL, ...) {
 #' @param return_posteriors Logical; return per-region posteriors?
 #' @param return_contributions Logical; return per-model contributions?
 #' @param normalize_posterior Logical; if TRUE (default), normalizes posteriors
-#'   to sum to 1. If FALSE, uses unnormalized posteriors (P(D|M) * P(M)) which
-#'   matches the original Correll & Heer (2017) JavaScript implementation.
+#'   to sum to 1 before computing KL divergence. This is the standard Bayesian
+#'   Surprise calculation. If FALSE, uses unnormalized posterior weights
+#'   (`P(D|M) * P(M)`) for comparison with the original Correll & Heer
+#'   JavaScript demo output.
 #' @param ... Additional arguments passed to likelihood functions
 #'
 #' @return A `bs_surprise` object
@@ -174,10 +176,10 @@ bayesian_update <- function(model_space, observed, region_idx = NULL, ...) {
 #' 2. The KL-divergence from prior to posterior (surprise)
 #' 3. Optionally, the sign based on deviation direction
 #'
-#' When `normalize_posterior = FALSE`, the function matches the original paper's
-#' JavaScript implementation which uses unnormalized posteriors in the KL
-#' computation. This is mathematically unconventional but reproduces the
-#' published results exactly.
+#' `normalize_posterior = FALSE` is a legacy replication mode for the original
+#' JavaScript demo's per-region map calculation. It is not a proper KL
+#' divergence between probability distributions and should not be used as the
+#' default method for new analyses.
 #'
 #' @export
 compute_surprise <- function(model_space,
@@ -219,8 +221,7 @@ compute_surprise <- function(model_space,
         overall_rate <- sum(observed, na.rm = TRUE) / sum(expected, na.rm = TRUE)
         expected_for_sign <- expected * overall_rate
       } else {
-        # Paper-matching: sign based on rate - mean(rates) (unweighted mean)
-        # This matches the dM.Score sign from the funnel model
+        # Legacy JS-comparison mode: sign based on rate - mean(rates).
         # SignedSurprise = sign(rate - mean_rate) * Surprise
         rates <- observed / expected
         mean_rate <- mean(rates, na.rm = TRUE)
@@ -258,21 +259,23 @@ compute_surprise <- function(model_space,
       log_normalizer <- log_sum_exp(log_posterior_unnorm)
       region_posterior <- exp(log_posterior_unnorm - log_normalizer)
       region_posterior <- region_posterior / sum(region_posterior)
-    } else
-{
-      # Paper-matching: use unnormalized posteriors P(D|M) * P(M)
-      # This matches the original Correll & Heer (2017) JavaScript
+    } else {
+      # Legacy JS-comparison mode: use unnormalized weights P(D|M) * P(M).
       region_posterior <- exp(log_posterior_unnorm)
     }
 
     # Compute KL-divergence (surprise)
-    # Note: when normalize_posterior=FALSE, this uses unnormalized posteriors
-    # which gives different (paper-matching) results
+    # Note: when normalize_posterior=FALSE, this is a legacy score rather than
+    # a true KL divergence between probability distributions.
     kl_value <- kl_divergence(region_posterior, prior)
 
-    # Paper uses |KL| for surprise (see main.js line 107)
-    # With unnormalized posteriors, KL can be negative
-    surprise_values[i] <- abs(kl_value)
+    surprise_values[i] <- if (normalize_posterior) {
+      pmax(kl_value, 0)
+    } else {
+      # The original JS map used |score| because the unnormalized score can be
+      # negative.
+      abs(kl_value)
+    }
 
     # Store posteriors if requested
     if (return_posteriors) {

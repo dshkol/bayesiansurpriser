@@ -1,5 +1,5 @@
-# Tests to validate implementation matches Correll & Heer (2017) paper
-# Reference: "Surprise! Bayesian Weighting for De-Biasing Thematic Maps"
+# Tests for formulas and legacy comparison behavior discussed in Correll & Heer
+# (2017), "Surprise! Bayesian Weighting for De-Biasing Thematic Maps".
 
 test_that("funnel model formula='paper' uses two-tailed p-value", {
   # Create test data
@@ -73,7 +73,7 @@ test_that("uniform model returns constant per-region likelihood", {
   expect_equal(ll5, 0)
 })
 
-test_that("compute_surprise with normalize_posterior=FALSE matches paper", {
+test_that("compute_surprise with normalize_posterior=FALSE is legacy JS mode", {
   # Test case: three regions with different rates
   population <- c(100000, 100000, 100000)
   counts <- c(1000, 1500, 3000)  # 1%, 1.5%, 3%
@@ -89,7 +89,7 @@ test_that("compute_surprise with normalize_posterior=FALSE matches paper", {
     normalize_posterior = FALSE
   )
 
-  # Surprise should be non-negative (it's |KL|)
+  # Surprise should be non-negative (legacy mode uses |score|)
   expect_true(all(result$surprise >= 0))
 
   # Region with more extreme rate should have higher surprise
@@ -136,7 +136,7 @@ test_that("signed surprise reflects deviation direction", {
   )
 })
 
-test_that("dM score formula matches paper exactly", {
+test_that("dM score formula uses unemployment-reference scaling", {
   # dM = Z * sqrt(pop / total_pop)
   population <- c(10000, 40000, 50000)
   total_pop <- sum(population)
@@ -175,7 +175,7 @@ test_that("P(D|M) is two-tailed p-value", {
   expect_equal(2 * pnorm(-abs(2.576)), 0.01, tolerance = 0.001)
 })
 
-test_that("paper mode produces higher surprise for genuine outliers", {
+test_that("legacy JS mode produces higher surprise for genuine outliers", {
   # Create data with one clear outlier
   set.seed(42)
   population <- rep(50000, 20)

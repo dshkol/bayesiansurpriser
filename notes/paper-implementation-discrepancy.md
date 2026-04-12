@@ -51,12 +51,15 @@ a deliberate choice, though undocumented.
 
 ## R Package Approach
 
-The `bayesiansurprise` R package provides both modes:
+The `bayesiansurprise` R package keeps both behaviors separate:
 
-- `normalize_posterior = FALSE` (paper-matching): Replicates the JavaScript
-  `surpriseMap()` behavior with unnormalized posteriors
 - `normalize_posterior = TRUE` (default): Uses proper Bayesian posterior
-  normalization as described in the paper text
+  normalization before computing KL divergence. This is the method-valid
+  Bayesian Surprise calculation.
+- `normalize_posterior = FALSE` (legacy comparison): Replicates the JavaScript
+  `surpriseMap()` behavior with unnormalized posterior weights. This is useful
+  for auditing historical outputs, but it is not a KL divergence between two
+  probability distributions.
 
 ## Validation
 

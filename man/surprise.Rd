@@ -70,9 +70,11 @@ Only used when \code{models} is a character vector or list.}
 
 \item{...}{Additional arguments passed to model likelihood functions}
 
-\item{normalize_posterior}{Logical; if TRUE (default), normalizes posteriors.
-If FALSE, uses unnormalized posteriors matching the original Correll & Heer
-(2017) JavaScript implementation. Use FALSE to replicate paper results exactly.}
+\item{normalize_posterior}{Logical; if TRUE (default), normalizes posteriors
+before computing KL divergence. This is the standard Bayesian Surprise
+calculation. If FALSE, uses the unnormalized per-region posterior weights
+used by the original Correll & Heer JavaScript demo; this option is
+retained only for legacy comparison.}
 }
 \value{
 For data frames: the input with \code{surprise} (and optionally
