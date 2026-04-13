@@ -66,7 +66,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Dmitry Shkolnik \email{dmitry@shkolnik.io}
+\strong{Maintainer}: Dmitry Shkolnik \email{shkolnikd@gmail.com}
 
 }
 \keyword{internal}

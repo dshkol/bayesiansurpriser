@@ -2,9 +2,9 @@ Package: bayesiansurpriser
 Title: Bayesian Surprise for De-Biasing Thematic Maps
 Version: 0.1.0
 Authors@R:
-    person("Dmitry", "Shkolnik", , "dmitry@shkolnik.io", role = c("aut", "cre"))
+    person("Dmitry", "Shkolnik", , "shkolnikd@gmail.com", role = c("aut", "cre"))
 Author: Dmitry Shkolnik [aut, cre]
-Maintainer: Dmitry Shkolnik <dmitry@shkolnik.io>
+Maintainer: Dmitry Shkolnik <shkolnikd@gmail.com>
 Description: Implements Bayesian Surprise methodology for data visualization,
     based on Correll & Heer (2017) "Surprise! Bayesian Weighting for De-Biasing
     Thematic Maps". Provides tools to weight event data relative to

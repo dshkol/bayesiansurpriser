@@ -1,4 +1,4 @@
-# Script to prepare example datasets for bayesiansurprise package
+# Script to prepare example datasets for bayesiansurpriser package
 #
 # Data sources:
 # - Canada mischief data: from bayesian-surprise paper

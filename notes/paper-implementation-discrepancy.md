@@ -51,7 +51,7 @@ a deliberate choice, though undocumented.
 
 ## R Package Approach
 
-The `bayesiansurprise` R package keeps both behaviors separate:
+The `bayesiansurpriser` R package keeps both behaviors separate:
 
 - `normalize_posterior = TRUE` (default): Uses proper Bayesian posterior
   normalization before computing KL divergence. This is the method-valid
