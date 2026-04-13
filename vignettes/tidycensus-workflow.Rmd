@@ -37,6 +37,11 @@ update because sampling variation is much smaller in large populations than in
 small populations. Compare results against the raw rate and a funnel plot before
 interpreting a map.
 
+ACS estimates are not literal event counts from a simple random experiment. In
+the examples below, the surprise maps model poverty rates directly using
+distributional models. The funnel plot remains useful as a separate diagnostic
+for whether extreme rates are also credible given different population sizes.
+
 ## When to Use Bayesian Surprise
 
 The examples below are most interpretable for:
@@ -66,9 +71,9 @@ library(dplyr)
 
 # Example 1: State-Level Poverty Analysis
 
-State-level analysis is a useful starting point because state populations are
-more comparable than county populations (ranging from ~580K to ~39M, about 2
-orders of magnitude).
+State-level analysis is a useful starting point because the number of units is
+small enough to inspect manually and the rate distribution is easy to compare
+against a companion funnel plot.
 
 ```{r state-poverty, eval=run_tidycensus_examples}
 # Get state-level poverty data
@@ -89,12 +94,12 @@ state_poverty <- state_poverty %>%
   filter(total_popE > 0) %>%
   mutate(poverty_rate = in_povertyE / total_popE)
 
-# Compute surprise
+# Compute surprise on the poverty-rate distribution.
+# This asks which state rates are unusual relative to the cross-state pattern.
 state_surprise <- surprise(
   state_poverty,
-  observed = in_povertyE,
-  expected = total_popE,
-  models = c("uniform", "baserate", "funnel")
+  observed = poverty_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 
 # View results
@@ -130,14 +135,10 @@ state_surprise_shifted <- state_surprise %>%
 
 ggplot(state_surprise_shifted) +
   geom_sf(aes(fill = signed_surprise), color = "white", linewidth = 0.3) +
-  scale_fill_gradient2(
-    low = "#2166ac", mid = "white", high = "#b2182b",
-    midpoint = 0,
-    name = "Signed\nSurprise"
-  ) +
+  scale_fill_surprise_diverging(name = "Signed\nsurprise") +
   labs(
-    title = "Surprising Poverty Rates by State",
-    subtitle = "Red = Higher than expected | Blue = Lower than expected",
+    title = "States with Atypical Poverty Rates",
+    subtitle = "Signed surprise from the cross-state poverty-rate distribution",
     caption = "Source: ACS 2018-2022 5-Year Estimates"
   ) +
   theme_void() +
@@ -322,11 +323,11 @@ ggplot() +
 have narrow bands, so smaller deviations from ~13% can strongly update the
 model posterior.
 
-This explains why Bayesian Surprise can differ from a rate map:
+This explains why a funnel diagnostic can differ from a rate map:
 - A small county with an extreme rate may still be plausible under a
   sampling-variation model.
-- A large county with a modest rate difference can produce a strong model
-  update because its sampling variation is small.
+- A large county with a modest rate difference can still be unusual because its
+  sampling variation is small.
 
 ***
 
@@ -353,37 +354,34 @@ chicago_tracts <- get_acs(
 
 chicago_tracts <- chicago_tracts %>%
   filter(!is.na(in_povertyE) & !is.na(total_popE)) %>%
-  filter(total_popE > 100)
+  filter(total_popE > 100) %>%
+  mutate(poverty_rate = in_povertyE / total_popE)
 
 cat("Population range:", range(chicago_tracts$total_popE), "\n")
 cat("Number of tracts:", nrow(chicago_tracts), "\n")
 
-# Compute surprise with a population baseline and sampling-variation model.
+# Compute surprise on the poverty-rate distribution.
+# The funnel plot above is the companion check for sample-size reliability.
 chicago_surprise <- surprise(
   chicago_tracts,
-  observed = in_povertyE,
-  expected = total_popE,
-  models = c("uniform", "baserate", "funnel")
+  observed = poverty_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 
 # Plot
 ggplot(chicago_surprise) +
-  geom_sf(aes(fill = signed_surprise), color = NA) +
-  scale_fill_gradient2(
-    low = "#2166ac", mid = "white", high = "#b2182b",
-    midpoint = 0,
-    name = "Signed\nSurprise"
-  ) +
+  geom_sf(aes(fill = surprise), color = NA) +
+  scale_fill_surprise(option = "magma", name = "Surprise\n(bits)") +
   labs(
-    title = "Surprising Poverty Patterns in Cook County, IL",
-    subtitle = "Census Tract Level | Red = Higher | Blue = Lower than expected",
+    title = "Atypical Poverty Rates in Cook County, IL",
+    subtitle = "Census tracts far from the countywide poverty-rate distribution",
     caption = "Source: ACS 2018-2022 5-Year Estimates"
   ) +
   theme_void()
 ```
 
 ```{r tract-top, eval=run_tidycensus_examples}
-# Largest signed surprise values under this model space
+# Largest signed surprise values under the rate-distribution model space
 chicago_surprise %>%
   st_drop_geometry() %>%
   mutate(poverty_rate = in_povertyE / total_popE) %>%
@@ -397,7 +395,8 @@ chicago_surprise %>%
 # Example 4: Large Counties Only
 
 When analyzing all US counties, filtering to larger populations gives more
-interpretable results since the funnel model won't dominate.
+interpretable rate-distribution results and keeps the companion funnel plot from
+being driven entirely by very small places.
 
 ```{r large-counties, fig.width=10, fig.height=6, eval=run_tidycensus_examples}
 # Get county data
@@ -423,12 +422,11 @@ large_counties <- county_poverty %>%
 cat("Counties with >100k population:", nrow(large_counties), "\n")
 cat("Population range:", format(range(large_counties$total_popE), big.mark = ","), "\n")
 
-# Compute surprise
+# Compute surprise on the county poverty-rate distribution
 large_surprise <- surprise(
   large_counties,
-  observed = in_povertyE,
-  expected = total_popE,
-  models = c("uniform", "baserate", "funnel")
+  observed = poverty_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 ```
 
@@ -456,14 +454,10 @@ large_surprise %>%
 ```{r large-counties-map, fig.width=10, fig.height=6, eval=run_tidycensus_examples}
 ggplot(large_surprise) +
   geom_sf(aes(fill = signed_surprise), color = "white", linewidth = 0.1) +
-  scale_fill_gradient2(
-    low = "#2166ac", mid = "white", high = "#b2182b",
-    midpoint = 0,
-    name = "Signed\nSurprise"
-  ) +
+  scale_fill_surprise_diverging(name = "Signed\nsurprise") +
   labs(
-    title = "Surprising Poverty Rates (Counties >100k Population)",
-    subtitle = "Red = Higher than expected | Blue = Lower than expected",
+    title = "Atypical Poverty Rates (Counties >100k Population)",
+    subtitle = "Signed surprise from the large-county poverty-rate distribution",
     caption = "Source: ACS 2018-2022 5-Year Estimates"
   ) +
   theme_void()
@@ -475,25 +469,24 @@ ggplot(large_surprise) +
 
 ## Why Small Regions Can Be Misleading
 
-The funnel model accounts for sampling variation - small populations have higher
-expected variance in rates. This means:
+The funnel diagnostic accounts for sampling variation: small populations have
+higher expected variance in rates. This means:
 
 1. A 60% poverty rate in a county of 500 people is "expected" to vary widely
 2. A 60% poverty rate in a county of 500,000 people produces a much stronger
    model update
 
-When populations span many orders of magnitude, the funnel model can dominate
-the model comparison. Use the surprise map together with the rate map and funnel
-plot so the source of the model update is visible.
+When populations span many orders of magnitude, use a surprise map together with
+the raw rate map and funnel plot so the source of the model update is visible.
 
 ## Recommendations
 
 | Data Type | Recommended Approach |
 |-----------|---------------------|
-| States | Full model suite can be useful with funnel-plot context |
-| All counties | Filter to >50k or >100k population |
+| States | Model the rate distribution and compare against a funnel plot |
+| All counties | Filter to >50k or >100k population, or use the funnel plot as the main diagnostic |
 | Counties in one state | Often easier to interpret than all counties |
-| Census tracts | Good fit when tract populations are comparable |
+| Census tracts | Model rates directly and inspect the high-surprise tracts |
 | Block groups | Use with care; inspect sample-size variation |
 
 ***
