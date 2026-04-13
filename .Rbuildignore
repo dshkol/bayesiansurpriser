@@ -13,3 +13,4 @@
 ^\.claude$
 ^\.\.Rcheck$
 ^notes$
+^cran-comments\.md$
