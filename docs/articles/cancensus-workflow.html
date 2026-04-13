@@ -96,6 +96,11 @@ analysis because it provides:</p>
 <li>Consistent geography across Census years</li>
 <li>Both counts and rates for many variables</li>
 </ul>
+<p>As with ACS examples, Census profile counts are best treated
+carefully. The surprise maps below model rates directly using
+distributional models. Funnel plots are used separately as diagnostics
+for how population or household counts affect the reliability of
+rates.</p>
 <div class="section level3">
 <h3 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
 </h3>
@@ -134,8 +139,8 @@ and variables.</p>
 <h2 id="example-1-low-income-rates-by-census-division">Example 1: Low Income Rates by Census Division<a class="anchor" aria-label="anchor" href="#example-1-low-income-rates-by-census-division"></a>
 </h2>
 <p>Let’s examine low income rates across Canada’s Census Divisions and
-identify which regions have high or low surprise under an explicit
-population and sampling-variation model space.</p>
+identify which regions have atypical rates relative to the
+cross-division distribution.</p>
 <div class="section level3">
 <h3 id="fetch-census-data">Fetch Census Data<a class="anchor" aria-label="anchor" href="#fetch-census-data"></a>
 </h3>
@@ -181,20 +186,19 @@ population and sampling-variation model space.</p>
 <h3 id="compute-bayesian-surprise">Compute Bayesian Surprise<a class="anchor" aria-label="anchor" href="#compute-bayesian-surprise"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compute surprise</span></span>
+<code class="sourceCode R"><span><span class="co"># Compute surprise on the low-income-rate distribution.</span></span>
 <span><span class="va">income_surprise</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surprise.html">surprise</a></span><span class="op">(</span></span>
 <span>  <span class="va">income_data</span>,</span>
-<span>  observed <span class="op">=</span> <span class="va">low_income</span>,</span>
-<span>  expected <span class="op">=</span> <span class="va">total_pop</span>,</span>
-<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"baserate"</span>, <span class="st">"funnel"</span><span class="op">)</span></span>
+<span>  observed <span class="op">=</span> <span class="va">low_income_rate</span>,</span>
+<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"gaussian"</span>, <span class="st">"sampled"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">income_surprise</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Bayesian Surprise Map</span></span>
 <span><span class="co">#&gt; =====================</span></span>
 <span><span class="co">#&gt; Models: 3 </span></span>
-<span><span class="co">#&gt; Surprise range: 0.1142 to 0.4116 </span></span>
-<span><span class="co">#&gt; Signed surprise range: -0.3171 to 0.4116 </span></span>
+<span><span class="co">#&gt; Surprise range: 0.0012 to 1.0991 </span></span>
+<span><span class="co">#&gt; Signed surprise range: -1.0991 to 0.9596 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Simple feature collection with 276 features and 18 fields</span></span>
 <span><span class="co">#&gt; Attribute-geometry relationships: constant (15), NA's (3)</span></span>
@@ -236,17 +240,17 @@ population and sampling-variation model space.</p>
 <span><span class="co">#&gt; 8  Division No.  8 (CDR)     9234.941       2.6        1.6</span></span>
 <span><span class="co">#&gt; 9  Division No.  9 (CDR)    13209.476       1.5        1.6</span></span>
 <span><span class="co">#&gt; 10 Division No. 10 (CDR)   191691.086       2.0        2.8</span></span>
-<span><span class="co">#&gt;                          geometry low_income_rate  surprise signed_surprise</span></span>
-<span><span class="co">#&gt; 1  MULTIPOLYGON (((-52.79548 4...       0.9069767 0.2417565       0.2417565</span></span>
-<span><span class="co">#&gt; 2  MULTIPOLYGON (((-54.64846 4...       0.9230769 0.1780325       0.1780325</span></span>
-<span><span class="co">#&gt; 3  MULTIPOLYGON (((-55.8764 47...       0.6956522 0.1748274      -0.1748274</span></span>
-<span><span class="co">#&gt; 4  MULTIPOLYGON (((-59.2948 47...       0.5384615 0.2598667      -0.2598667</span></span>
-<span><span class="co">#&gt; 5  MULTIPOLYGON (((-58.26214 4...       0.8823529 0.2136847       0.2136847</span></span>
-<span><span class="co">#&gt; 6  MULTIPOLYGON (((-55.27854 4...       0.9459459 0.2574248       0.2574248</span></span>
-<span><span class="co">#&gt; 7  MULTIPOLYGON (((-53.74344 4...       0.9166667 0.1759153       0.1759153</span></span>
-<span><span class="co">#&gt; 8  MULTIPOLYGON (((-54.24936 4...       0.6153846 0.1757978      -0.1757978</span></span>
-<span><span class="co">#&gt; 9  MULTIPOLYGON (((-55.42497 5...       1.0666667 0.2073977       0.2073977</span></span>
-<span><span class="co">#&gt; 10 MULTIPOLYGON (((-60.91505 5...       1.4000000 0.2812346       0.2812346</span></span>
+<span><span class="co">#&gt;                          geometry low_income_rate    surprise signed_surprise</span></span>
+<span><span class="co">#&gt; 1  MULTIPOLYGON (((-52.79548 4...       0.9069767 0.030040863     0.030040863</span></span>
+<span><span class="co">#&gt; 2  MULTIPOLYGON (((-54.64846 4...       0.9230769 0.028202690     0.028202690</span></span>
+<span><span class="co">#&gt; 3  MULTIPOLYGON (((-55.8764 47...       0.6956522 0.015582828    -0.015582828</span></span>
+<span><span class="co">#&gt; 4  MULTIPOLYGON (((-59.2948 47...       0.5384615 0.008926266    -0.008926266</span></span>
+<span><span class="co">#&gt; 5  MULTIPOLYGON (((-58.26214 4...       0.8823529 0.032003269     0.032003269</span></span>
+<span><span class="co">#&gt; 6  MULTIPOLYGON (((-55.27854 4...       0.9459459 0.024869967     0.024869967</span></span>
+<span><span class="co">#&gt; 7  MULTIPOLYGON (((-53.74344 4...       0.9166667 0.028985389     0.028985389</span></span>
+<span><span class="co">#&gt; 8  MULTIPOLYGON (((-54.24936 4...       0.6153846 0.002961314    -0.002961314</span></span>
+<span><span class="co">#&gt; 9  MULTIPOLYGON (((-55.42497 5...       1.0666667 0.002981345     0.002981345</span></span>
+<span><span class="co">#&gt; 10 MULTIPOLYGON (((-60.91505 5...       1.4000000 0.643186681     0.643186681</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">income_surprise</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Shape Area       Type       Households      Population 2016  </span></span>
 <span><span class="co">#&gt;  Min.   :   206.5   CD:276   Min.   :    780   Min.   :   2558  </span></span>
@@ -280,13 +284,13 @@ population and sampling-variation model space.</p>
 <span><span class="co">#&gt;  Division No.  5 (CDR):  4   3rd Qu.: 14803.9   3rd Qu.: 3.70   3rd Qu.:3.600  </span></span>
 <span><span class="co">#&gt;  Division No.  6 (CDR):  4   Max.   :707306.5   Max.   :10.90   Max.   :9.400  </span></span>
 <span><span class="co">#&gt;  (Other)              :252                                                     </span></span>
-<span><span class="co">#&gt;           geometry   low_income_rate     surprise      signed_surprise   </span></span>
-<span><span class="co">#&gt;  MULTIPOLYGON :276   Min.   :0.1818   Min.   :0.1142   Min.   :-0.31707  </span></span>
-<span><span class="co">#&gt;  epsg:4326    :  0   1st Qu.:0.6667   1st Qu.:0.1780   1st Qu.:-0.18383  </span></span>
-<span><span class="co">#&gt;  +proj=long...:  0   Median :0.8443   Median :0.2151   Median :-0.12653  </span></span>
-<span><span class="co">#&gt;                      Mean   :0.8367   Mean   :0.2164   Mean   : 0.01639  </span></span>
-<span><span class="co">#&gt;                      3rd Qu.:1.0000   3rd Qu.:0.2496   3rd Qu.: 0.23897  </span></span>
-<span><span class="co">#&gt;                      Max.   :1.4737   Max.   :0.4116   Max.   : 0.41161  </span></span>
+<span><span class="co">#&gt;           geometry   low_income_rate     surprise        signed_surprise    </span></span>
+<span><span class="co">#&gt;  MULTIPOLYGON :276   Min.   :0.1818   Min.   :0.001157   Min.   :-1.099116  </span></span>
+<span><span class="co">#&gt;  epsg:4326    :  0   1st Qu.:0.6667   1st Qu.:0.007890   1st Qu.:-0.019145  </span></span>
+<span><span class="co">#&gt;  +proj=long...:  0   Median :0.8443   Median :0.021936   Median : 0.001403  </span></span>
+<span><span class="co">#&gt;                      Mean   :0.8367   Mean   :0.062956   Mean   : 0.007089  </span></span>
+<span><span class="co">#&gt;                      3rd Qu.:1.0000   3rd Qu.:0.031610   3rd Qu.: 0.025769  </span></span>
+<span><span class="co">#&gt;                      Max.   :1.4737   Max.   :1.099116   Max.   : 0.959614  </span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -303,10 +307,10 @@ population and sampling-variation model space.</p>
 <span><span class="co"># Plot Canada-wide</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">income_data_lambert</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">signed_surprise</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span><span class="op">)</span>, oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">squish</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Signed\nsurprise"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Surprising Low Income Rates by Census Division"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Red = Higher than expected | Blue = Lower than expected"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Atypical Low Income Rates by Census Division"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Signed surprise from the cross-division low-income-rate distribution"</span>,</span>
 <span>    caption <span class="op">=</span> <span class="st">"Source: Statistics Canada, 2021 Census"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -333,16 +337,16 @@ population and sampling-variation model space.</p>
 <span><span class="co">#&gt; Census Divisions with positive signed surprise:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">high_income_surprise</span><span class="op">)</span></span>
 <span><span class="co">#&gt;              Region Name low_income_rate total_pop  surprise</span></span>
-<span><span class="co">#&gt; 1  Mount Waddington (RD)       1.4736842       3.8 0.4116146</span></span>
-<span><span class="co">#&gt; 2  Division No. 19 (CDR)       1.3877551       4.9 0.4025353</span></span>
-<span><span class="co">#&gt; 3           Queens (CTY)       1.2727273       4.4 0.3626269</span></span>
-<span><span class="co">#&gt; 4  Division No. 11 (CDR)       1.1325301       8.3 0.3432439</span></span>
-<span><span class="co">#&gt; 5  Division No. 18 (CDR)       1.3783784       3.7 0.3312780</span></span>
-<span><span class="co">#&gt; 6  Division No. 14 (CDR)       1.3333333       2.7 0.3238770</span></span>
-<span><span class="co">#&gt; 7  Division No. 13 (CDR)       1.2500000       2.8 0.3146517</span></span>
-<span><span class="co">#&gt; 8            Bruce (CTY)       1.4642857       2.8 0.3126192</span></span>
-<span><span class="co">#&gt; 9  Division No. 10 (CDR)       1.3500000       4.0 0.3091726</span></span>
-<span><span class="co">#&gt; 10         Toronto (CDR)       0.8850575       8.7 0.3041841</span></span>
+<span><span class="co">#&gt; 1  Mount Waddington (RD)        1.473684       3.8 0.9596140</span></span>
+<span><span class="co">#&gt; 2            Bruce (CTY)        1.464286       2.8 0.9166387</span></span>
+<span><span class="co">#&gt; 3  Division No. 10 (CDR)        1.400000       2.0 0.6431867</span></span>
+<span><span class="co">#&gt; 4  Division No. 19 (CDR)        1.387755       4.9 0.5980193</span></span>
+<span><span class="co">#&gt; 5  Division No. 18 (CDR)        1.378378       3.7 0.5653834</span></span>
+<span><span class="co">#&gt; 6            Huron (CTY)        1.354839       3.1 0.4909450</span></span>
+<span><span class="co">#&gt; 7  Division No. 10 (CDR)        1.350000       4.0 0.4769159</span></span>
+<span><span class="co">#&gt; 8  Division No. 14 (CDR)        1.333333       2.7 0.4316586</span></span>
+<span><span class="co">#&gt; 9  Division No. 21 (CDR)        1.323529       3.4 0.4069403</span></span>
+<span><span class="co">#&gt; 10 Division No.  1 (CDR)        1.312500       3.2 0.3803817</span></span>
 <span></span>
 <span><span class="co"># Top regions with negative signed surprise</span></span>
 <span><span class="va">low_income_surprise</span> <span class="op">&lt;-</span> <span class="va">income_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -356,17 +360,17 @@ population and sampling-variation model space.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Census Divisions with negative signed surprise:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">low_income_surprise</span><span class="op">)</span></span>
-<span><span class="co">#&gt;              Region Name low_income_rate total_pop  surprise</span></span>
-<span><span class="co">#&gt; 1          Montréal (TÉ)       0.7431193      10.9 0.3170683</span></span>
-<span><span class="co">#&gt; 2  Rivière-du-Loup (MRC)       0.1818182       2.2 0.2801393</span></span>
-<span><span class="co">#&gt; 3       La Matanie (MRC)       0.3529412       3.4 0.2731409</span></span>
-<span><span class="co">#&gt; 4        Frontenac (CTY)       0.5660377       5.3 0.2656435</span></span>
-<span><span class="co">#&gt; 5          Waterloo (RM)       0.8387097       6.2 0.2629034</span></span>
-<span><span class="co">#&gt; 6        Middlesex (CTY)       0.8448276       5.8 0.2609346</span></span>
-<span><span class="co">#&gt; 7  Division No.  4 (CDR)       0.5384615       5.2 0.2598667</span></span>
-<span><span class="co">#&gt; 8            Québec (TÉ)       0.6271186       5.9 0.2586694</span></span>
-<span><span class="co">#&gt; 9          Gatineau (TÉ)       0.7719298       5.7 0.2556475</span></span>
-<span><span class="co">#&gt; 10       Shawinigan (TÉ)       0.6964286       5.6 0.2511059</span></span></code></pre></div>
+<span><span class="co">#&gt;                         Region Name low_income_rate total_pop  surprise</span></span>
+<span><span class="co">#&gt; 1             Rivière-du-Loup (MRC)       0.1818182       2.2 1.0991165</span></span>
+<span><span class="co">#&gt; 2               Robert-Cliche (MRC)       0.2000000       1.5 1.0416346</span></span>
+<span><span class="co">#&gt; 3                  Kamouraska (MRC)       0.3000000       2.0 0.6692050</span></span>
+<span><span class="co">#&gt; 4  Les Jardins-de-Napierville (MRC)       0.3125000       1.6 0.6151227</span></span>
+<span><span class="co">#&gt; 5                 Les Sources (MRC)       0.3333333       3.0 0.5239340</span></span>
+<span><span class="co">#&gt; 6                  La Matanie (MRC)       0.3529412       3.4 0.4386328</span></span>
+<span><span class="co">#&gt; 7           Le Domaine-du-Roy (MRC)       0.4000000       2.5 0.2504012</span></span>
+<span><span class="co">#&gt; 8              Les Appalaches (MRC)       0.4230769       2.6 0.1751860</span></span>
+<span><span class="co">#&gt; 9  Sept-Rivières--Caniapiscau (CDR)       0.4285714       2.1 0.1594827</span></span>
+<span><span class="co">#&gt; 10            Les Laurentides (MRC)       0.4333333       3.0 0.1465783</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -403,13 +407,11 @@ within the Vancouver CMA.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Number of Census Tracts:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">housing_data</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Number of Census Tracts: 524</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compute surprise - use uniform and baserate only for local CMA analysis</span></span>
-<span><span class="co"># (funnel model absorbs too much variation at this scale)</span></span>
+<code class="sourceCode R"><span><span class="co"># Compute surprise on the home-ownership-rate distribution.</span></span>
 <span><span class="va">housing_surprise</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surprise.html">surprise</a></span><span class="op">(</span></span>
 <span>  <span class="va">housing_data</span>,</span>
-<span>  observed <span class="op">=</span> <span class="va">owner_hh</span>,</span>
-<span>  expected <span class="op">=</span> <span class="va">total_hh</span>,</span>
-<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"baserate"</span><span class="op">)</span></span>
+<span>  observed <span class="op">=</span> <span class="va">owner_rate</span>,</span>
+<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"gaussian"</span>, <span class="st">"sampled"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">housing_data</span><span class="op">$</span><span class="va">signed_surprise</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_surprise.html">get_surprise</a></span><span class="op">(</span><span class="va">housing_surprise</span>, <span class="st">"signed"</span><span class="op">)</span></span>
@@ -417,10 +419,10 @@ within the Vancouver CMA.</p>
 <span><span class="co"># Plot Vancouver</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">housing_data</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">signed_surprise</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span><span class="op">)</span>, oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">squish</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Signed\nsurprise"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Surprising Home Ownership Rates in Metro Vancouver"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Census Tract Level | Red = More owners | Blue = Fewer owners than expected"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Atypical Home Ownership Rates in Metro Vancouver"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Signed surprise from the tract-level owner-rate distribution"</span>,</span>
 <span>    caption <span class="op">=</span> <span class="st">"Source: Statistics Canada, 2021 Census"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -457,14 +459,14 @@ language speakers at home.</p>
 <span></span>
 <span><span class="va">language_data</span> <span class="op">&lt;-</span> <span class="va">language_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">total_pop</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">no_official</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">total_pop</span> <span class="op">&gt;</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">total_pop</span> <span class="op">&gt;</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_official_rate <span class="op">=</span> <span class="va">no_official</span> <span class="op">/</span> <span class="va">total_pop</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compute surprise - use uniform and baserate only for local CMA analysis</span></span>
+<code class="sourceCode R"><span><span class="co"># Compute surprise on the non-official-language-rate distribution.</span></span>
 <span><span class="va">lang_surprise</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surprise.html">surprise</a></span><span class="op">(</span></span>
 <span>  <span class="va">language_data</span>,</span>
-<span>  observed <span class="op">=</span> <span class="va">no_official</span>,</span>
-<span>  expected <span class="op">=</span> <span class="va">total_pop</span>,</span>
-<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"baserate"</span><span class="op">)</span></span>
+<span>  observed <span class="op">=</span> <span class="va">no_official_rate</span>,</span>
+<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"gaussian"</span>, <span class="st">"sampled"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">language_data</span><span class="op">$</span><span class="va">signed_surprise</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_surprise.html">get_surprise</a></span><span class="op">(</span><span class="va">lang_surprise</span>, <span class="st">"signed"</span><span class="op">)</span></span>
@@ -472,10 +474,10 @@ language speakers at home.</p>
 <span><span class="co"># Plot Toronto</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">language_data</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">signed_surprise</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span><span class="op">)</span>, oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">squish</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_fill_surprise_diverging.html">scale_fill_surprise_diverging</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Signed\nsurprise"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Surprising Non-Official Language Concentrations in Toronto"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Census Tract Level | Red = Higher | Blue = Lower concentration than expected"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Atypical Non-Official Language Concentrations in Toronto"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Signed surprise from the tract-level non-official-language-rate distribution"</span>,</span>
 <span>    caption <span class="op">=</span> <span class="st">"Source: Statistics Canada, 2021 Census"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -614,6 +616,7 @@ provincial level.</p>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">prov_2021</span> <span class="op">&lt;-</span> <span class="va">prov_2021</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">prov_2021</span><span class="op">$</span><span class="va">total_pop</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">prov_2021</span><span class="op">$</span><span class="va">total_pop</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="op">]</span></span>
+<span><span class="va">prov_2021</span><span class="op">$</span><span class="va">low_income_rate</span> <span class="op">&lt;-</span> <span class="va">prov_2021</span><span class="op">$</span><span class="va">low_income</span> <span class="op">/</span> <span class="va">prov_2021</span><span class="op">$</span><span class="va">total_pop</span></span>
 <span><span class="va">prov_2021</span><span class="op">$</span><span class="va">census_year</span> <span class="op">&lt;-</span> <span class="fl">2021</span></span>
 <span></span>
 <span><span class="co"># 2016 data (different vector IDs for same concept)</span></span>
@@ -627,22 +630,21 @@ provincial level.</p>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">prov_2016</span> <span class="op">&lt;-</span> <span class="va">prov_2016</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">prov_2016</span><span class="op">$</span><span class="va">total_pop</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">prov_2016</span><span class="op">$</span><span class="va">total_pop</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="op">]</span></span>
+<span><span class="va">prov_2016</span><span class="op">$</span><span class="va">low_income_rate</span> <span class="op">&lt;-</span> <span class="va">prov_2016</span><span class="op">$</span><span class="va">low_income</span> <span class="op">/</span> <span class="va">prov_2016</span><span class="op">$</span><span class="va">total_pop</span></span>
 <span><span class="va">prov_2016</span><span class="op">$</span><span class="va">census_year</span> <span class="op">&lt;-</span> <span class="fl">2016</span></span>
 <span></span>
-<span><span class="co"># Compute surprise for each year</span></span>
+<span><span class="co"># Compute surprise for each year's provincial low-income-rate distribution</span></span>
 <span><span class="va">surprise_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surprise.html">surprise</a></span><span class="op">(</span></span>
 <span>  <span class="va">prov_2021</span>,</span>
-<span>  observed <span class="op">=</span> <span class="va">low_income</span>,</span>
-<span>  expected <span class="op">=</span> <span class="va">total_pop</span>,</span>
-<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"baserate"</span>, <span class="st">"funnel"</span><span class="op">)</span></span>
+<span>  observed <span class="op">=</span> <span class="va">low_income_rate</span>,</span>
+<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"gaussian"</span>, <span class="st">"sampled"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">prov_2021</span><span class="op">$</span><span class="va">signed_surprise</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_surprise.html">get_surprise</a></span><span class="op">(</span><span class="va">surprise_2021</span>, <span class="st">"signed"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">surprise_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surprise.html">surprise</a></span><span class="op">(</span></span>
 <span>  <span class="va">prov_2016</span>,</span>
-<span>  observed <span class="op">=</span> <span class="va">low_income</span>,</span>
-<span>  expected <span class="op">=</span> <span class="va">total_pop</span>,</span>
-<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"baserate"</span>, <span class="st">"funnel"</span><span class="op">)</span></span>
+<span>  observed <span class="op">=</span> <span class="va">low_income_rate</span>,</span>
+<span>  models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="st">"gaussian"</span>, <span class="st">"sampled"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">prov_2016</span><span class="op">$</span><span class="va">signed_surprise</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_surprise.html">get_surprise</a></span><span class="op">(</span><span class="va">surprise_2016</span>, <span class="st">"signed"</span><span class="op">)</span></span>
 <span></span>
@@ -656,27 +658,27 @@ provincial level.</p>
 <span><span class="va">comparison</span><span class="op">$</span><span class="va">change</span> <span class="op">&lt;-</span> <span class="va">comparison</span><span class="op">$</span><span class="va">signed_surprise_2021</span> <span class="op">-</span> <span class="va">comparison</span><span class="op">$</span><span class="va">signed_surprise_2016</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">comparison</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">comparison</span><span class="op">$</span><span class="va">change</span><span class="op">)</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    GeoUID               Region Name signed_surprise_2016 signed_surprise_2021</span></span>
-<span><span class="co">#&gt; 6      35                   Ontario            0.6816343           -0.2499603</span></span>
-<span><span class="co">#&gt; 7      46                  Manitoba           -0.5884280            0.3015651</span></span>
-<span><span class="co">#&gt; 5      24                    Quebec            0.5977811           -0.2849486</span></span>
-<span><span class="co">#&gt; 10     59          British Columbia            0.5863188           -0.2559216</span></span>
-<span><span class="co">#&gt; 4      13             New Brunswick           -0.5919020            0.2392606</span></span>
-<span><span class="co">#&gt; 2      11      Prince Edward Island           -0.5937866            0.2341079</span></span>
-<span><span class="co">#&gt; 8      47              Saskatchewan           -0.5891237            0.2302675</span></span>
-<span><span class="co">#&gt; 1      10 Newfoundland and Labrador           -0.5918840           -0.2124393</span></span>
-<span><span class="co">#&gt; 3      12               Nova Scotia           -0.5910465           -0.2396523</span></span>
-<span><span class="co">#&gt; 9      48                   Alberta            0.5854109            0.2598829</span></span>
-<span><span class="co">#&gt;        change</span></span>
-<span><span class="co">#&gt; 6  -0.9315947</span></span>
-<span><span class="co">#&gt; 7   0.8899930</span></span>
-<span><span class="co">#&gt; 5  -0.8827297</span></span>
-<span><span class="co">#&gt; 10 -0.8422404</span></span>
-<span><span class="co">#&gt; 4   0.8311626</span></span>
-<span><span class="co">#&gt; 2   0.8278946</span></span>
-<span><span class="co">#&gt; 8   0.8193913</span></span>
-<span><span class="co">#&gt; 1   0.3794447</span></span>
-<span><span class="co">#&gt; 3   0.3513942</span></span>
-<span><span class="co">#&gt; 9  -0.3255281</span></span></code></pre></div>
+<span><span class="co">#&gt; 4      13             New Brunswick            -1.584420           0.17272244</span></span>
+<span><span class="co">#&gt; 10     59          British Columbia             1.584569          -0.17225122</span></span>
+<span><span class="co">#&gt; 2      11      Prince Edward Island            -1.584443           0.17185215</span></span>
+<span><span class="co">#&gt; 6      35                   Ontario             1.584877          -0.13850732</span></span>
+<span><span class="co">#&gt; 7      46                  Manitoba            -1.584409           0.11617269</span></span>
+<span><span class="co">#&gt; 8      47              Saskatchewan            -1.584411           0.11230080</span></span>
+<span><span class="co">#&gt; 5      24                    Quebec             1.584706          -0.09813818</span></span>
+<span><span class="co">#&gt; 9      48                   Alberta             1.584557           0.14575026</span></span>
+<span><span class="co">#&gt; 1      10 Newfoundland and Labrador            -1.584428          -0.16841634</span></span>
+<span><span class="co">#&gt; 3      12               Nova Scotia            -1.584414          -0.18158511</span></span>
+<span><span class="co">#&gt;       change</span></span>
+<span><span class="co">#&gt; 4   1.757143</span></span>
+<span><span class="co">#&gt; 10 -1.756820</span></span>
+<span><span class="co">#&gt; 2   1.756295</span></span>
+<span><span class="co">#&gt; 6  -1.723384</span></span>
+<span><span class="co">#&gt; 7   1.700582</span></span>
+<span><span class="co">#&gt; 8   1.696712</span></span>
+<span><span class="co">#&gt; 5  -1.682844</span></span>
+<span><span class="co">#&gt; 9  -1.438807</span></span>
+<span><span class="co">#&gt; 1   1.416012</span></span>
+<span><span class="co">#&gt; 3   1.402828</span></span></code></pre></div>
 <p>Note: This example is not evaluated because it requires multiple API
 calls. Run locally with your CensusMapper API key.</p>
 <hr>
@@ -684,30 +686,30 @@ calls. Run locally with your CensusMapper API key.</p>
 <div class="section level2">
 <h2 id="example-6-custom-model-space-for-census-data">Example 6: Custom Model Space for Census Data<a class="anchor" aria-label="anchor" href="#example-6-custom-model-space-for-census-data"></a>
 </h2>
-<p>For Census data with known population distributions, create a custom
-model space.</p>
+<p>For Census data, create a custom model space that matches the
+quantity being modeled. Here the observed values are home-ownership
+rates, so the models are rate-distribution models rather than
+population-baseline count models.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Using the Vancouver housing data</span></span>
 <span><span class="co"># Create a custom model space</span></span>
 <span></span>
-<span><span class="co"># Create custom model space with uniform and baserate models</span></span>
-<span><span class="co"># (funnel is better suited for cross-regional comparisons, not local CMA analysis)</span></span>
+<span><span class="co"># Create custom model space for rates</span></span>
 <span><span class="va">housing_models</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_space.html">model_space</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="../reference/bs_model_uniform.html">bs_model_uniform</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="../reference/bs_model_baserate.html">bs_model_baserate</a></span><span class="op">(</span><span class="va">housing_data</span><span class="op">$</span><span class="va">total_hh</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/bs_model_gaussian.html">bs_model_gaussian</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/bs_model_sampled.html">bs_model_sampled</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">housing_models</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;bs_model_space&gt;</span></span>
 <span><span class="co">#&gt;   Models: 2 </span></span>
-<span><span class="co">#&gt;    1. Uniform (prior: 0.5)</span></span>
-<span><span class="co">#&gt;    2. Base Rate (prior: 0.5)</span></span>
+<span><span class="co">#&gt;    1. Gaussian (prior: 0.5)</span></span>
+<span><span class="co">#&gt;    2. Sampled (KDE) (prior: 0.5)</span></span>
 <span></span>
 <span><span class="co"># Use surprise() with custom model space</span></span>
 <span><span class="va">custom_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surprise.html">surprise</a></span><span class="op">(</span></span>
 <span>  <span class="va">housing_data</span>,</span>
-<span>  observed <span class="op">=</span> <span class="va">owner_hh</span>,</span>
-<span>  expected <span class="op">=</span> <span class="va">total_hh</span>,</span>
+<span>  observed <span class="op">=</span> <span class="va">owner_rate</span>,</span>
 <span>  models <span class="op">=</span> <span class="va">housing_models</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -717,8 +719,8 @@ model space.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Custom model surprise summary:\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Custom model surprise summary:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">housing_data</span><span class="op">$</span><span class="va">custom_surprise</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt; -1.0000 -1.0000  0.9975  0.2170  1.0000  1.0000</span></span></code></pre></div>
+<span><span class="co">#&gt;       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span></span>
+<span><span class="co">#&gt; -0.4210060 -0.0035322  0.0002741 -0.0028656  0.0152084  0.0805043</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -767,11 +769,12 @@ interpretation:</p>
 </table>
 <p><strong>Key insight</strong>: Surprise measures how much the data
 discriminates between models, not just how far a rate is from average. A
-region with an unusual rate but average population may show low surprise
-because all models predict similar things for it. Conversely, a large
-region with a rate close to average may show high surprise if it
-strongly confirms or refutes the funnel model’s predictions about
-sampling variation.</p>
+region with an unusual rate may show low surprise if all models assign
+similar likelihood to it. A region with a rate near the average can
+still show surprise if it falls in a part of the distribution where the
+chosen models disagree. Use the funnel plot separately to understand
+whether population size makes a rate estimate unusually reliable or
+noisy.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Categorize regions by surprise level</span></span>
 <span><span class="va">income_data</span> <span class="op">&lt;-</span> <span class="va">income_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -790,7 +793,7 @@ sampling variation.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">income_data</span><span class="op">$</span><span class="va">surprise_category</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     Trivial       Minor    Moderate Substantial        High </span></span>
-<span><span class="co">#&gt;           0         265          11           0           0</span></span></code></pre></div>
+<span><span class="co">#&gt;         249          10           7           8           2</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">

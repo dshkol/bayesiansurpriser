@@ -42,6 +42,11 @@ it provides:
 - Consistent geography across Census years
 - Both counts and rates for many variables
 
+As with ACS examples, Census profile counts are best treated carefully. The
+surprise maps below model rates directly using distributional models. Funnel
+plots are used separately as diagnostics for how population or household counts
+affect the reliability of rates.
+
 ## Prerequisites
 
 You'll need a CensusMapper API key from https://censusmapper.ca/users/sign_up
@@ -84,8 +89,7 @@ head(regions_2021 %>% filter(level == "CMA"))
 # Example 1: Low Income Rates by Census Division
 
 Let's examine low income rates across Canada's Census Divisions and identify
-which regions have high or low surprise under an explicit population and
-sampling-variation model space.
+which regions have atypical rates relative to the cross-division distribution.
 
 ## Fetch Census Data
 
@@ -124,12 +128,11 @@ head(income_data %>% st_drop_geometry() %>% select(GeoUID, `Region Name`, total_
 ## Compute Bayesian Surprise
 
 ```{r compute-income-surprise, eval=run_cancensus_examples}
-# Compute surprise
+# Compute surprise on the low-income-rate distribution.
 income_surprise <- surprise(
   income_data,
-  observed = low_income,
-  expected = total_pop,
-  models = c("uniform", "baserate", "funnel")
+  observed = low_income_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 
 print(income_surprise)
@@ -149,10 +152,10 @@ income_data_lambert <- st_transform(income_data, "EPSG:3347")
 # Plot Canada-wide
 ggplot(income_data_lambert) +
   geom_sf(aes(fill = signed_surprise), color = "white", linewidth = 0.1) +
-  scale_fill_surprise_diverging(limits = c(-1.5, 1.5), oob = scales::squish) +
+  scale_fill_surprise_diverging(name = "Signed\nsurprise") +
   labs(
-    title = "Surprising Low Income Rates by Census Division",
-    subtitle = "Red = Higher than expected | Blue = Lower than expected",
+    title = "Atypical Low Income Rates by Census Division",
+    subtitle = "Signed surprise from the cross-division low-income-rate distribution",
     caption = "Source: Statistics Canada, 2021 Census"
   ) +
   theme_void() +
@@ -225,13 +228,11 @@ cat("Number of Census Tracts:", nrow(housing_data), "\n")
 ```
 
 ```{r housing-surprise, fig.width=9, fig.height=7, eval=run_cancensus_examples}
-# Compute surprise - use uniform and baserate only for local CMA analysis
-# (funnel model absorbs too much variation at this scale)
+# Compute surprise on the home-ownership-rate distribution.
 housing_surprise <- surprise(
   housing_data,
-  observed = owner_hh,
-  expected = total_hh,
-  models = c("uniform", "baserate")
+  observed = owner_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 
 housing_data$signed_surprise <- get_surprise(housing_surprise, "signed")
@@ -239,10 +240,10 @@ housing_data$signed_surprise <- get_surprise(housing_surprise, "signed")
 # Plot Vancouver
 ggplot(housing_data) +
   geom_sf(aes(fill = signed_surprise), color = "white", linewidth = 0.02) +
-  scale_fill_surprise_diverging(limits = c(-1.5, 1.5), oob = scales::squish) +
+  scale_fill_surprise_diverging(name = "Signed\nsurprise") +
   labs(
-    title = "Surprising Home Ownership Rates in Metro Vancouver",
-    subtitle = "Census Tract Level | Red = More owners | Blue = Fewer owners than expected",
+    title = "Atypical Home Ownership Rates in Metro Vancouver",
+    subtitle = "Signed surprise from the tract-level owner-rate distribution",
     caption = "Source: Statistics Canada, 2021 Census"
   ) +
   theme_void() +
@@ -280,16 +281,16 @@ language_data <- get_census(
 
 language_data <- language_data %>%
   filter(!is.na(total_pop) & !is.na(no_official)) %>%
-  filter(total_pop > 100)
+  filter(total_pop > 100) %>%
+  mutate(no_official_rate = no_official / total_pop)
 ```
 
 ```{r language-surprise, fig.width=9, fig.height=7, eval=run_cancensus_examples}
-# Compute surprise - use uniform and baserate only for local CMA analysis
+# Compute surprise on the non-official-language-rate distribution.
 lang_surprise <- surprise(
   language_data,
-  observed = no_official,
-  expected = total_pop,
-  models = c("uniform", "baserate")
+  observed = no_official_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 
 language_data$signed_surprise <- get_surprise(lang_surprise, "signed")
@@ -297,10 +298,10 @@ language_data$signed_surprise <- get_surprise(lang_surprise, "signed")
 # Plot Toronto
 ggplot(language_data) +
   geom_sf(aes(fill = signed_surprise), color = "white", linewidth = 0.02) +
-  scale_fill_surprise_diverging(limits = c(-1.5, 1.5), oob = scales::squish) +
+  scale_fill_surprise_diverging(name = "Signed\nsurprise") +
   labs(
-    title = "Surprising Non-Official Language Concentrations in Toronto",
-    subtitle = "Census Tract Level | Red = Higher | Blue = Lower concentration than expected",
+    title = "Atypical Non-Official Language Concentrations in Toronto",
+    subtitle = "Signed surprise from the tract-level non-official-language-rate distribution",
     caption = "Source: Statistics Canada, 2021 Census"
   ) +
   theme_void() +
@@ -439,6 +440,7 @@ prov_2021 <- get_census(
   quiet = TRUE
 )
 prov_2021 <- prov_2021[!is.na(prov_2021$total_pop) & prov_2021$total_pop > 0, ]
+prov_2021$low_income_rate <- prov_2021$low_income / prov_2021$total_pop
 prov_2021$census_year <- 2021
 
 # 2016 data (different vector IDs for same concept)
@@ -452,22 +454,21 @@ prov_2016 <- get_census(
   quiet = TRUE
 )
 prov_2016 <- prov_2016[!is.na(prov_2016$total_pop) & prov_2016$total_pop > 0, ]
+prov_2016$low_income_rate <- prov_2016$low_income / prov_2016$total_pop
 prov_2016$census_year <- 2016
 
-# Compute surprise for each year
+# Compute surprise for each year's provincial low-income-rate distribution
 surprise_2021 <- surprise(
   prov_2021,
-  observed = low_income,
-  expected = total_pop,
-  models = c("uniform", "baserate", "funnel")
+  observed = low_income_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 prov_2021$signed_surprise <- get_surprise(surprise_2021, "signed")
 
 surprise_2016 <- surprise(
   prov_2016,
-  observed = low_income,
-  expected = total_pop,
-  models = c("uniform", "baserate", "funnel")
+  observed = low_income_rate,
+  models = c("uniform", "gaussian", "sampled")
 )
 prov_2016$signed_surprise <- get_surprise(surprise_2016, "signed")
 
@@ -489,17 +490,18 @@ Run locally with your CensusMapper API key.
 
 # Example 6: Custom Model Space for Census Data
 
-For Census data with known population distributions, create a custom model space.
+For Census data, create a custom model space that matches the quantity being
+modeled. Here the observed values are home-ownership rates, so the models are
+rate-distribution models rather than population-baseline count models.
 
 ```{r custom-models, eval=run_cancensus_examples}
 # Using the Vancouver housing data
 # Create a custom model space
 
-# Create custom model space with uniform and baserate models
-# (funnel is better suited for cross-regional comparisons, not local CMA analysis)
+# Create custom model space for rates
 housing_models <- model_space(
-  bs_model_uniform(),
-  bs_model_baserate(housing_data$total_hh)
+  bs_model_gaussian(),
+  bs_model_sampled()
 )
 
 print(housing_models)
@@ -507,8 +509,7 @@ print(housing_models)
 # Use surprise() with custom model space
 custom_result <- surprise(
   housing_data,
-  observed = owner_hh,
-  expected = total_hh,
+  observed = owner_rate,
   models = housing_models
 )
 
@@ -534,10 +535,11 @@ Understanding what surprise values mean is crucial for proper interpretation:
 | > 1.0 | High | Very strong model update under the chosen model space |
 
 **Key insight**: Surprise measures how much the data discriminates between models, not
-just how far a rate is from average. A region with an unusual rate but average population
-may show low surprise because all models predict similar things for it. Conversely,
-a large region with a rate close to average may show high surprise if it strongly
-confirms or refutes the funnel model's predictions about sampling variation.
+just how far a rate is from average. A region with an unusual rate may show low
+surprise if all models assign similar likelihood to it. A region with a rate near
+the average can still show surprise if it falls in a part of the distribution
+where the chosen models disagree. Use the funnel plot separately to understand
+whether population size makes a rate estimate unusually reliable or noisy.
 
 ```{r interpret-surprise, eval=run_cancensus_examples}
 # Categorize regions by surprise level
