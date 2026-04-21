@@ -199,10 +199,9 @@ bs_model_funnel <- function(sample_size,
 #'
 #' @export
 #' @examples
-#' # Using sf package's NC data
-#' # library(sf)
-#' # nc <- st_read(system.file("shape/nc.shp", package = "sf"))
-#' # model <- bs_model_funnel_col(nc, "BIR74")
+#' df <- data.frame(sample_size = c(1000, 2000, 3000))
+#' model <- bs_model_funnel_col(df, "sample_size")
+#' model$name
 bs_model_funnel_col <- function(data, column, ...) {
   if (!column %in% names(data)) {
     cli_abort("Column {.val {column}} not found in data.")

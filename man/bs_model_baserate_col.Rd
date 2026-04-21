@@ -20,8 +20,7 @@ A \code{bs_model_baserate} object
 Convenience function to create a base rate model from a data frame column.
 }
 \examples{
-# Using sf package's NC data
-# library(sf)
-# nc <- st_read(system.file("shape/nc.shp", package = "sf"))
-# model <- bs_model_baserate_col(nc, "BIR74")
+df <- data.frame(expected = c(100, 200, 300))
+model <- bs_model_baserate_col(df, "expected")
+model$name
 }

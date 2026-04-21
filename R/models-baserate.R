@@ -108,10 +108,9 @@ bs_model_baserate <- function(expected, normalize = TRUE, name = NULL) {
 #'
 #' @export
 #' @examples
-#' # Using sf package's NC data
-#' # library(sf)
-#' # nc <- st_read(system.file("shape/nc.shp", package = "sf"))
-#' # model <- bs_model_baserate_col(nc, "BIR74")
+#' df <- data.frame(expected = c(100, 200, 300))
+#' model <- bs_model_baserate_col(df, "expected")
+#' model$name
 bs_model_baserate_col <- function(data, column, ...) {
   if (!column %in% names(data)) {
     cli_abort("Column {.val {column}} not found in data.")

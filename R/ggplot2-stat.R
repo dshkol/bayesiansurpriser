@@ -164,6 +164,10 @@ StatSurpriseSf <- ggplot2::ggproto("StatSurpriseSf", ggplot2::StatSf,
 #' Stat for Surprise with sf Geometries
 #'
 #' @inheritParams stat_surprise
+#' @return A list containing a ggplot2 layer using [StatSurpriseSf] and
+#'   [ggplot2::coord_sf()]. The stat computes `surprise` and, when `signed =
+#'   TRUE`, `signed_surprise`, which are available to downstream geoms via
+#'   `after_stat()`.
 #' @export
 stat_surprise_sf <- function(mapping = NULL, data = NULL,
                               geom = ggplot2::GeomSf,

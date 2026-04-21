@@ -41,6 +41,11 @@ Options: "uniform", "baserate", "gaussian", "sampled", "funnel"}
 
 \item{...}{Additional arguments passed to the layer}
 }
+\value{
+A list containing a ggplot2 layer using \link{StatSurpriseSf} and
+\code{\link[ggplot2:ggsf]{ggplot2::coord_sf()}}. The stat computes \code{surprise} and, when \code{signed = TRUE}, \code{signed_surprise}, which are available to downstream geoms via
+\code{after_stat()}.
+}
 \description{
 Stat for Surprise with sf Geometries
 }
