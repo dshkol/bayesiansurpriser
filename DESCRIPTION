@@ -1,6 +1,6 @@
 Package: bayesiansurpriser
 Title: Bayesian Surprise for De-Biasing Thematic Maps
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     person("Dmitry", "Shkolnik", , "shkolnikd@gmail.com", role = c("aut", "cre"))
 Description: Implements Bayesian Surprise methodology for data visualization,
