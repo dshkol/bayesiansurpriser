@@ -93,7 +93,7 @@ new_bs_model_space <- function(models, prior = NULL, names = NULL) {
   if (abs(sum(prior) - 1) > .Machine$double.eps^0.5) {
     cli_abort("{.arg prior} must sum to 1, not {sum(prior)}.")
   }
- if (any(prior < 0)) {
+  if (any(prior < 0)) {
     cli_abort("{.arg prior} must contain non-negative values.")
   }
 
