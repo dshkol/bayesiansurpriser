@@ -44,7 +44,7 @@
 ## usethis namespace: start
 #' @importFrom rlang %||%
 #' @importFrom rlang .data
-#' @importFrom stats sd dnorm dpois dmultinom density approx weighted.mean
+#' @importFrom stats sd dnorm dpois density approx
 #' @importFrom utils modifyList
 #' @importFrom ggplot2 waiver
 #' @importFrom MASS kde2d bandwidth.nrd
