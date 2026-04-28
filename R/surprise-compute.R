@@ -86,14 +86,16 @@ surprise.data.frame <- function(data,
 
   # Extract expected values if provided
   exp_vals <- NULL
-  if (!is.null(rlang::enquo(expected)) && !rlang::quo_is_null(rlang::enquo(expected))) {
-    exp_vals <- extract_column(data, rlang::enquo(expected))
+  expected_quo <- rlang::enquo(expected)
+  if (!rlang::quo_is_null(expected_quo)) {
+    exp_vals <- extract_column(data, expected_quo)
   }
 
   # Extract sample sizes if provided
   size_vals <- NULL
-  if (!is.null(rlang::enquo(sample_size)) && !rlang::quo_is_null(rlang::enquo(sample_size))) {
-    size_vals <- extract_column(data, rlang::enquo(sample_size))
+  sample_size_quo <- rlang::enquo(sample_size)
+  if (!rlang::quo_is_null(sample_size_quo)) {
+    size_vals <- extract_column(data, sample_size_quo)
   } else if (!is.null(exp_vals)) {
     size_vals <- exp_vals
   }

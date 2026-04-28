@@ -221,14 +221,21 @@ update_surprise.bs_surprise <- function(surprise_result,
     mspace$prior <- mspace$posterior
   }
 
-  # Rebuild model space if new_expected is provided (for new observations)
+  # Rebuild model space if new_expected is provided (for new observations).
+  # Preserve the model types from the existing space so a custom selection
+  # is not silently overridden. Skip the rebuild if any model type is outside
+  # the spec-builder vocabulary, since rebuilding would error.
   if (!is.null(new_expected)) {
-    mspace <- build_model_space_from_spec(
-      c("uniform", "baserate", "funnel"),
-      new_expected,
-      new_expected,
-      prior = mspace$prior
-    )
+    existing_types <- vapply(mspace$models, `[[`, character(1), "type")
+    rebuildable <- c("uniform", "baserate", "gaussian", "sampled", "kde", "funnel")
+    if (all(existing_types %in% rebuildable)) {
+      mspace <- build_model_space_from_spec(
+        existing_types,
+        new_expected,
+        new_expected,
+        prior = mspace$prior
+      )
+    }
   }
 
   # First do global Bayesian update to get posterior
@@ -279,14 +286,20 @@ update_surprise.bs_surprise_temporal <- function(surprise_result,
     mspace$prior <- mspace$posterior
   }
 
-  # Rebuild model space if expected values changed
+  # Rebuild model space if expected values changed, preserving the existing
+  # model selection. Skip the rebuild for spaces containing model types the
+  # spec builder doesn't know about.
   if (!is.null(new_expected)) {
-    mspace <- build_model_space_from_spec(
-      c("uniform", "baserate", "funnel"),
-      new_expected,
-      new_expected,
-      prior = mspace$prior
-    )
+    existing_types <- vapply(mspace$models, `[[`, character(1), "type")
+    rebuildable <- c("uniform", "baserate", "gaussian", "sampled", "kde", "funnel")
+    if (all(existing_types %in% rebuildable)) {
+      mspace <- build_model_space_from_spec(
+        existing_types,
+        new_expected,
+        new_expected,
+        prior = mspace$prior
+      )
+    }
   }
 
   # Compute surprise for new time period

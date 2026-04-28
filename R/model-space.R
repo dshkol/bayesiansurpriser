@@ -36,7 +36,7 @@ model_space <- function(..., prior = NULL, names = NULL) {
   models <- list(...)
 
   # Handle case where a single list is passed
- if (length(models) == 1 && is.list(models[[1]]) &&
+  if (length(models) == 1 && is.list(models[[1]]) &&
       !inherits(models[[1]], "bs_model")) {
     models <- models[[1]]
   }
